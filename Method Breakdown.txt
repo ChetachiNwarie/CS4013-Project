@@ -1,0 +1,39 @@
+This is a kind of informal description of how each of the methods in my UML diagram could be implemented. Also could make writing documentation quicker - Sam.
+
+For the Property class, the constructor is straightforward.
+getEircode just returns the eircode.
+getReceipt returns a single PaymentReceipt from the arraylist for a given year.
+The taxDue method takes the numbers given in the project spec. and the location category, market value, principal private residence
+and any overdue tax(paymentReceipts) from the object's attributes. It might be worth adding a private method to handle the compounding of the unpaid tax.
+payTax creates or changes the PaymentRecord for the current year(and previous years if paying overdue tax) and if necessary, adds
+the PaymentRecord to the arraylist.
+toString is straightforward. may need a for loop if we want to have the records as part of it. Might be cleaner to add a private
+method to make a string with all the records in it. Or we could add a toString to PaymentRecord and use that as part of this one.
+
+For the PaymentRecord class, again the constructor is straightforward enough. The amount is given by the taxDue method from Property.
+The getYear and getPaid are straightforward too.
+
+For the PropertyOwner class, this is more or less just an arraylist of properties with a couple of methods to manipulate them and a name.
+The registerProperty method uses the Property constructor and adds the new Property object to the arraylist of owned properties.
+It should also add this property to the DepartmentManagmentMenu's arraylist of properties.
+The payTax method uses the method of the same name from the Property class but now it has an argument to select a property. This may also be
+where we update the arraylist in DepartmentManagmentMenu to reflect the new payments.
+viewProperties displays the toStrings from each property in the arraylist
+queryYear uses a for loop and for each property it uses the getReceipt to get the PaymentReceipt for the relevant year.
+
+DepartmentManagmentMenu.
+The getPropertyData returns the toString from the entered property.
+getOwnerData returns the toStrings from each property owned by that PropertyOwner(use PropertyOwner.getProperties())
+getOverdueTax first asks the user if they want to select an area based on eircode routing key. It then creates an arraylist of just the 
+properties which have the relevant routing key. It then checks each property in the appropriate arraylist for the wasPaid boolean 
+and returns the toStrings of those who have wasPaid set to false.
+areaRecords similarly creates an arraylist of the properties with the relevant routing key. it might be best to make a private method to
+make these arraylists in a tidier way. It then calculates the total tax, average tax, number&percentage of property tax paid using the 
+formula. These formulas could be put in private methods too possibly. We then arrange these statistics in a String and return it.
+The investigate method calculates the total tax of all properties in the system first and stores it. 
+It then uses user input alongside the set methods in Property to change the constants e.g. the flat charge for not being the principle private residence, the rates based on property value, etc.
+and then calculates the total revenue after these changes. It then returns a string summarising the changes and how they affected the revenue. This string could be created at
+the beginning of the method and then constructed as we go through each user input e.g. user says they want to change the flat rate to £120, code would say something like
+String output = "Summary of changes and how they affect revenue";
+*user input here*
+String input1 = String.format("The flat rate was changed to %.2f", inputVariable);
