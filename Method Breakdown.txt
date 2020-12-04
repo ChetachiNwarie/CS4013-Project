@@ -37,6 +37,3 @@ the beginning of the method and then constructed as we go through each user inpu
 String output = "Summary of changes and how they affect revenue";
 *user input here*
 String input1 = String.format("The flat rate was changed to %.2f", inputVariable);
-
-Atom portal link
-atom://teletype/portal/b2fc2e1c-6ddb-42e5-abab-f6c427532536
