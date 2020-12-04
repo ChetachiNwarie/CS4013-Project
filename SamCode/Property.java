@@ -1,4 +1,3 @@
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -8,6 +7,7 @@ import java.util.ArrayList;
  */
 public class Property {
 
+    private String owner;
     private String address;
     private String eircode;
     private double marketValue;
@@ -23,7 +23,8 @@ public class Property {
     private double unpaidPenalty = 0.07;
     private int currentYear = LocalDate.now().getYear();
 
-    public Property(String address, String eircode, double marketValue, String locationCategory, boolean principalPrivateResidence){
+    public Property(String owner, String address, String eircode, double marketValue, String locationCategory, boolean principalPrivateResidence){
+        this.owner=owner;
         this.address=address;
         this.eircode=eircode.toUpperCase();
         this.marketValue=marketValue;
@@ -31,9 +32,6 @@ public class Property {
         this.principalPrivateResidence=principalPrivateResidence;
     }
 
-    public String getEircode(){
-        return eircode;
-    }
 
     public PaymentRecord getRecord(int year){
         for(int i = 0; i<paymentRecords.size(); i++){
@@ -104,6 +102,72 @@ public class Property {
         for(int i = 0; i<overdueRecords.size();i++){
 
         }
+    }
+    
+    //Chetachi's code from here down
+    public String getAddress()
+    {
+        return address;
+    }
+
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }
+
+    public String getEircode()
+    {
+        return eircode;
+    }
+
+    public void setEircode(String eircode)
+    {
+        this.eircode = eircode;
+    }
+
+    public double getMarketValue()
+    {
+        return marketValue;
+    }
+
+    public void setMarketValue(double marketValue)
+    {
+        this.marketValue = marketValue;
+    }
+
+    public String getLocation()
+    {
+        return locationCategory;
+    }
+
+    public void setLocation(String location)
+    {
+        this.locationCategory = location;
+    }
+
+    public boolean isPrivateResidence()
+    {
+        return principalPrivateResidence;
+    }
+
+    public void setPrivateResidence(boolean privateResidence)
+    {
+        this.principalPrivateResidence = privateResidence;
+    }
+    
+    public String getOwner()
+    {
+        return owner;
+    }
+
+
+    public String toString()
+    {
+        String a = String.format("Property\nOwner: %s\nAddress: %s"
+                + "\n%s\nPrivate Residence: %b\nLocation: %s",
+                getOwner(), getAddress(),
+                getEircode(), isPrivateResidence(), getLocation());
+        return a;
     }
 
 }
