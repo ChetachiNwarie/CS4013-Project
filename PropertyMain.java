@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author cnwar
+ * @author Chetachi
  */
 public class PropertyMain
 {
