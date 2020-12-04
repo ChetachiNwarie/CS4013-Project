@@ -17,7 +17,7 @@ public class Property {
     //constants to calculate tax from here on
     private double fixedCost = 100;
     private double[] valueBrackets = {0, 150000, 400000, 650000};
-    private double[] valueBracketRates = {0, 0.01, 0.02, 0.04};
+    private double[] valueBracketRates = {0, 0.0001, 0.0002, 0.0004};
     private double[] locationCatRates = {100, 80, 60, 50, 25};
     private double principalPrivateRate = 100;
     private double unpaidPenalty = 0.07;
