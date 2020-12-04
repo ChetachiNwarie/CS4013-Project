@@ -11,7 +11,7 @@ package project;
  */
 public class PropertyRun {
     public static void main(String[] args){
-        ProjectGui frame = new ProjectGui();
+        WelcomeGui frame = new WelcomeGui();
         frame.setVisible(true);
     }
 }
