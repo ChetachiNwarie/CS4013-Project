@@ -42,6 +42,10 @@ public class Property {
         System.err.println("No record exists for that year");
         return null;
     }
+    
+    public ArrayList<PaymentRecord> getAllRecords(){
+        return paymentRecords;
+    }
 
     public double taxDue(){
         //fixed rate

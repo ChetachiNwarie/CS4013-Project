@@ -11,7 +11,7 @@ public class PropertyOwner {
     private ArrayList<Property> properties = new ArrayList<Property>();
     
     public PropertyOwner(String name){
-        this.name=name;
+        this.name=name.toUpperCase();
     }
     
     public void registerProperty(String address, String eircode,  double marketValue, String locationCategory, boolean principalPrivateResidence){
@@ -39,4 +39,11 @@ public class PropertyOwner {
         return properties;
     }
         
+    public String toString(){
+        String propDetails="";
+        for(int i = 0; i<properties.size(); i++){
+            propDetails+=properties.get(i).toString();
+        }
+        return String.format(name+"\n"+propDetails);
+    }
 }
