@@ -1,4 +1,5 @@
 
+
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -49,32 +50,17 @@ public class PropertyChargeManagementSystem
             if (command.equals("S"))
             {
 
-                for (String[] r : prop.readPropertiesFile())
+                for (Property r : prop.getRegisteredProperties())
                 {
                     System.out.println(r.toString());
                 }
-
-                /*
-                if (prop.getRegisteredProperties().size() == 0)
-                {
-                    System.out.println("No properties to show.");
-                }
-                else
-                {
-               
-                    
-                    for (int i = 0; i < prop.getRegisteredProperties().size(); i++)
-                    {
-                        System.out.println(prop.getRegisteredProperties().get(i).toString());
-                    }
-                 */
             
         }
         else if (command.equals("O"))
             {
-                for (int i = 0; i < prop.getRegisteredOwners().size(); i++)
+                for (String a : prop.getRegisteredOwners())
                 {
-                    System.out.println(prop.getRegisteredOwners().get(i));
+                    System.out.println(a);
                 }
             }
             else if (command.equals("I")) //allows one coin be inserted at a time
@@ -101,34 +87,26 @@ public class PropertyChargeManagementSystem
             }
             else if (command.equals("A"))
             {
-                Property a = new Property();
-                
+               
                 System.out.println("Owner:");
-                PropertyOwner b = new PropertyOwner(in.nextLine());
-                if(!prop.getRegisteredOwners().contains(b)){
-                    prop.registerOwner(b);
-                }
-                
-                a.setOwner(b);
+                String name = in.nextLine();  
                 System.out.println("Address:");
-                a.setAddress(in.nextLine());
+                String address =in.nextLine();
                 System.out.println("Eircode:");
-                a.setEircode(in.nextLine());
+                String code = in.nextLine();
                 System.out.println("Market Value:");
-                a.setMarketValue(in.nextDouble());
+               double mv = in.nextDouble();
                 System.out.println("Location: ");
-                a.setLocation((String) getChoice(locations));
+                String loc = (String) getChoice(locations);
                 System.out.println("Private residence?:");
                 String bo = (String) getChoice(privateResidence);
+                boolean priv = false;
                 if (bo.equals("Yes"))
                 {
-                    a.setPrivateResidence(true);
-                }
-                else
-                {
-                    a.setPrivateResidence(false);
+                    priv = true;
                 }
                 in.nextLine(); // read the new-line character
+                Property a = new Property(name, address, code, mv, loc, priv);
                 prop.registerProperty(a);
             }
             else if (command.equals("Q"))
@@ -162,3 +140,4 @@ private String getChoice(String[] choices)
     }
 
 }
+
