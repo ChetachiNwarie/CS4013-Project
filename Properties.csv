@@ -1,10 +1,11 @@
 Owner,Address,Eircode,Market Value,Location,Private Residence
 Sean,12 House,V19T355,12332122,City,yes
 Gina,5 Abbey Lane,V212H54,100000,Village,no
-Sean, 14 Sea Port, V23F33, 150000,City,no
-Bob,16 Sesame Street, V12H66, 12000000, Countryside, yes
-Sean, 1 Old Road, V23H22, 907768,Small Town, no
-Bob, 3 Cluain Lia, V56J77, 29981923, Village, yes
-Bob, 2 Github Lane, H56U77, 2827270, City,no
-Gina, 6 Potter House, R54Y882, 200, Village, no
-Sean, 4 Raspbery Road, H655H77, 200399, Large Town, yes
+Sean,14 Sea Port,V23F33,150000,City,no
+Bob,16 Sesame Street,V12H66,12000000,Countryside,yes
+Sean,1 Old Road,V23H22,907768,Small Town,no
+Bob,3 Cluain Lia,V56J77,29981923,Village,yes
+Bob,2 Github Lane,H56U77,2827270,City,no
+Gina,6 Potter House,R54Y882,200,Village,no
+Sean,4 Raspberry Road,H655H77,200399,Large Town,yes
+
