@@ -1,6 +1,8 @@
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,33 +18,50 @@ import java.util.logging.Logger;
  */
 /**
  *
- * @author cnwar
+ * @author Chetachi Nwarie (19244355)
  */
 public class PropertyManagement
 {
 
-    private List<ArrayList<Object>> registeredProperties = new ArrayList<>();
-    private ArrayList<PropertyOwner> registeredOwners = new ArrayList<>();
+    private ArrayList<Property> registeredProperties = new ArrayList<>();
+    private ArrayList<String> registeredOwners = new ArrayList<>();
 
     public PropertyManagement()
     {
-
+        readPropertiesFile();
     }
 
-    public void registerOwner(PropertyOwner p)
+    //Check this is it needed?
+    public void registerOwner(String p)
     {
-        if (registeredOwners.contains(p))
+
+        try
         {
-            System.out.println("Owner already registered.");
+            File file = new File(p.toUpperCase() + ".csv");
+            if (file.exists())
+            {
+
+                System.out.println("Owner already registered.");
+
+            }
+            else
+
+            {
+                //Get property tax payment data for any property owner 
+                FileWriter csvWriter = new FileWriter(file, true);
+                csvWriter.write("Address,Eircode,MarketValue,Location,Private Residence,");
+                registeredOwners.add(p);
+            }
+
         }
-        else
+        catch (IOException ex)
         {
-            registeredOwners.add(p);
-            initializing();
+            Logger.getLogger(PropertyManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
+    //Check this, is it needed?
     public void registerProperty(Property p)
     {
         if (registeredProperties.contains(p))
@@ -51,48 +70,95 @@ public class PropertyManagement
         }
         else
         {
-            registeredProperties.add(p.getThisProperty());
+            registeredProperties.add(p);
             initializing();
         }
     }
 
-    public List<ArrayList<Object>> getRegisteredProperties()
+    public ArrayList<Property> getRegisteredProperties()
     {
+        readPropertiesFile();
         return registeredProperties;
+
     }
 
-    public void setRegisteredProperties(ArrayList<ArrayList<Object>> registeredProperties)
+    public void setRegisteredProperties(ArrayList<Property> registeredProperties)
     {
-        this.registeredProperties = registeredProperties;
+        try
+        {
+            BufferedReader file = new BufferedReader(new FileReader("Properties.csv"));
+            StringBuffer inputBuffer = new StringBuffer();
+            String line;
+            int i = 0;
+
+            while (((line = file.readLine()) != null) && (i < 1))
+            {
+                inputBuffer.append(line);
+                inputBuffer.append('\n');
+                i++;
+            }
+
+            for (Property p : registeredProperties)
+            {
+                inputBuffer.append(p.toString() + '\n');
+            }
+
+            file.close();
+            FileOutputStream fileOut = new FileOutputStream("Properties", false);
+            fileOut.write(inputBuffer.toString().getBytes());
+            fileOut.close();
+
+        }
+        catch (Exception e)
+        {
+            System.err.println("Problem reading file.");
+        }
+
+        readPropertiesFile();
+
     }
 
-    public ArrayList<PropertyOwner> getRegisteredOwners()
+    public ArrayList<String> getRegisteredOwners()
     {
+        readPropertiesFile();
         return registeredOwners;
     }
 
-    public void setRegisteredOwners(ArrayList<PropertyOwner> registeredOwners)
+    public void setRegisteredOwners(ArrayList<String> registeredOwners)
     {
         this.registeredOwners = registeredOwners;
     }
 
-    public ArrayList<String[]> readPropertiesFile()
+    public void readPropertiesFile()
     {
-        //Maybe we make a spreadsheet of ll properties and divide them up here.
-        
-        ArrayList<String[]> props = new ArrayList<>();
-        try{
-        BufferedReader csvReader = new BufferedReader(new FileReader("Properties.csv"));
-            String row;
-            
-        while ((row = csvReader.readLine()) != null)
+        ArrayList<Property> props = new ArrayList<>();
+        ArrayList<String> own = new ArrayList<>();
+        try
         {
-            
-            String[] propertyData = row.split(",");
-            props.add(propertyData);
-            
-        }
-        csvReader.close();
+            BufferedReader csvReader = new BufferedReader(new FileReader("Properties.csv"));
+            String line;
+            int i = 0;
+            while ((line = csvReader.readLine()) != null)
+            {
+                if (i > 0)
+                {
+                    String[] spl = line.split(",");
+                    boolean paid = false;
+                    if (spl[5].equals("yes"))
+                    {
+                        paid = true;
+                    }
+
+                    Property a = new Property(spl[0], spl[1], spl[2], Double.parseDouble(spl[3]), spl[4], paid);
+                    props.add(a);
+                    if (!own.contains(spl[0]))
+                    {
+                        own.add(spl[0]);
+                    }
+                }
+                i++;
+            }
+            csvReader.close();
         }
         catch (FileNotFoundException ex)
         {
@@ -102,68 +168,51 @@ public class PropertyManagement
         {
             Logger.getLogger(PropertyManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return props;
+        registeredProperties = props;
+        registeredOwners = own;
+
     }
 
-    public void initializing()
+    public void addToPropertiesFile(Property a)
     {
-        try
+        if (getRegisteredProperties().contains(a))
         {
-            FileWriter csvWriter = new FileWriter("Properties.csv");
-            csvWriter.append("Owner");
-            csvWriter.append(",");
-            csvWriter.append("Address");
-            csvWriter.append(",");
-            csvWriter.append("Eircode");
-            csvWriter.append(",");
-            csvWriter.append("Market Value");
-            csvWriter.append(",");
-            csvWriter.append("Location");
-            csvWriter.append(",");
-            csvWriter.append("Private Residence");
-            csvWriter.append("\n");
-
-            for (ArrayList<Object> rowData : registeredProperties)
-            {
-                csvWriter.append(String.join(",", rowData.toString()));
-                csvWriter.append("\n");
-            }
-
-            csvWriter.flush();
-            csvWriter.close();
-
-            for (PropertyOwner j : registeredOwners)
-            {
-
-                FileWriter csvWrite = new FileWriter(j.getName() + ".csv");
-
-                csvWrite.append(j.getName() + " Properties");
-                csvWrite.append("\n");
-                csvWrite.append("Owner");
-                csvWrite.append(",");
-                csvWrite.append("Address");
-                csvWrite.append(",");
-                csvWrite.append("Eircode");
-                csvWrite.append(",");
-                csvWrite.append("Market Value");
-                csvWrite.append(",");
-                csvWrite.append("Location");
-                csvWrite.append(",");
-                csvWrite.append("Private Residence");
-                csvWrite.append("\n");
-
-                for (Property k : j.getProperties())
-                {
-                    csvWriter.append(String.join(",", k.getThisProperty().toString()));
-                    csvWriter.append("\n");
-                }
-            }
+            removeFromPropertiesFile(a);
+        }
+        if (!getRegisteredOwners().contains(a.getOwner()))
+        {
+            File f = new File(a.getOwner().toUpperCase() + ".csv");
 
         }
-        catch (IOException ex)
+
+        String[] files =
         {
-            Logger.getLogger(Property.class.getName()).log(Level.SEVERE, null, ex);
+            "Properties.csv", a.getOwner().toUpperCase() + ".csv"
+        };
+        for (String filename : files)
+        {
+            try
+            {
+                FileWriter csvWriter1 = new FileWriter(filename, true);
+                csvWriter1.append(a.toString() + "\n");
+                csvWriter1.flush();
+                csvWriter1.close();
+
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(Property.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
+        //readPropertiesFile();
+    }
+
+    private void removeFromPropertiesFile(Property a)
+    {
+
+        a.deleteProperty();
+        readPropertiesFile();
 
     }
 
