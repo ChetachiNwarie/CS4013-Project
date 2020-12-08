@@ -6,6 +6,7 @@
 package projectb;
 
 import java.io.IOException;
+import javafx.application.Application;
 
 /**
  *
@@ -15,7 +16,9 @@ public class PropertyRun {
 
     public static void main(String[] args)
             throws IOException {
-        PropertyGui frame = new PropertyGui();
-        frame.setVisible(true);
+//        PropertyGui frame = new PropertyGui();
+//        frame.setVisible(true);
+
+        Application.launch(FXGui.class, args);
     }
 }
