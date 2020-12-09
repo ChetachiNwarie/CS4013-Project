@@ -16,9 +16,6 @@ public class PropertyRun {
 
     public static void main(String[] args)
             throws IOException {
-//        PropertyGui frame = new PropertyGui();
-//        frame.setVisible(true);
-
         Application.launch(FXGui.class, args);
     }
 }
