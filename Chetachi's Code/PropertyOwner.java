@@ -74,7 +74,7 @@ public class PropertyOwner
                     csvWriter2.append("Owner,Address,Eircode,Market Value,Location,Private Residence\n");
                 }
                 this.name = name;
-                csvWriter2.append(toString() + "\n");
+                csvWriter2.append(toString());
                 csvWriter2.flush();
                 csvWriter2.close();
 
@@ -118,8 +118,8 @@ public class PropertyOwner
     public void payTax(Property prop)
     {
         prop.payTax();
-    }
-
+    }  
+    
     public void viewProperties()
     {
         for (int i = 0; i < properties.size(); i++)
@@ -290,7 +290,6 @@ public class PropertyOwner
 
     private void removePropertyFrom(Property p, String filename)
     {
-        //  String filename = "Properties.csv";
 
         try
         {
@@ -318,11 +317,7 @@ public class PropertyOwner
             System.err.println("Problem reading file.");
         }
 
-        /*
-        File a = new File(this.address.toUpperCase() + " Payment Records.csv");
-        a.delete();
-        paymentRecords.clear();
-         */
     }
 
 }
+
