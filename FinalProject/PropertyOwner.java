@@ -23,6 +23,7 @@ public class PropertyOwner {
     
     public PropertyOwner(String name){
         this.name=name.toUpperCase();
+        initializing();
     }
     
     public void registerProperty(String address, String eircode,  double marketValue, String locationCategory, boolean principalPrivateResidence){
