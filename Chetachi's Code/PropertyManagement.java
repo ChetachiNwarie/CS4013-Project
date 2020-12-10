@@ -31,7 +31,43 @@ public class PropertyManagement
         readPropertiesFile();
     }
 
-    //Check this is it needed?
+   
+      public ArrayList<Property> getPropertiesByLocation(String loc)
+    {
+        ArrayList<Property> props = new ArrayList<>();
+        try
+        {
+            BufferedReader csvReader = new BufferedReader(new FileReader("Properties.csv"));
+            String line;
+            while ((line = csvReader.readLine()) != null)
+            {
+                String[] spl = line.split(",");
+                if (spl[4].toUpperCase() == loc.toUpperCase())
+                {
+                    boolean paid = false;
+                    if (spl[5].equals("yes"))
+                    {
+                        paid = true;
+                    }
+
+                    Property a = new Property(spl[0], spl[1], spl[2], Double.parseDouble(spl[3]), spl[4], paid);
+                    props.add(a);
+                }
+
+            }
+            csvReader.close();
+        }
+        catch (FileNotFoundException ex)
+        {
+            Logger.getLogger(PropertyManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(PropertyManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return props;
+    }
+    
     public void registerOwner(String p)
     {
 
