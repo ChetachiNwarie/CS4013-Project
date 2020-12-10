@@ -18,21 +18,21 @@ import java.util.logging.Logger;
  */
 /**
  *
- * @author Chetachi Nwarie (19244355)
+ * @author cnwar
  */
 public class PropertyManagement
 {
 
     private ArrayList<Property> registeredProperties = new ArrayList<>();
-    private ArrayList<String> registeredOwners = new ArrayList<>();
+    private ArrayList<PropertyOwner> registeredOwners = new ArrayList<>();
 
     public PropertyManagement()
     {
         readPropertiesFile();
     }
 
-   
-      public ArrayList<Property> getPropertiesByLocation(String loc)
+    //Check this is it needed?
+    public ArrayList<Property> getPropertyByLocation(String loc)
     {
         ArrayList<Property> props = new ArrayList<>();
         try
@@ -67,13 +67,13 @@ public class PropertyManagement
         }
         return props;
     }
-    
-    public void registerOwner(String p)
+
+    public void registerOwner(PropertyOwner p)
     {
 
         try
         {
-            File file = new File(p.toUpperCase() + ".csv");
+            File file = new File(p.getName().toUpperCase() + ".csv");
             if (file.exists())
             {
 
@@ -83,7 +83,6 @@ public class PropertyManagement
             else
 
             {
-                //Get property tax payment data for any property owner 
                 FileWriter csvWriter = new FileWriter(file, true);
                 csvWriter.write("Address,Eircode,MarketValue,Location,Private Residence,");
                 registeredOwners.add(p);
@@ -96,8 +95,7 @@ public class PropertyManagement
         }
 
     }
-
-    //Check this, is it needed?
+    
     public void registerProperty(Property p)
     {
         if (registeredProperties.contains(p))
@@ -154,13 +152,13 @@ public class PropertyManagement
 
     }
 
-    public ArrayList<String> getRegisteredOwners()
+    public ArrayList<PropertyOwner> getRegisteredOwners()
     {
         readPropertiesFile();
         return registeredOwners;
     }
 
-    public void setRegisteredOwners(ArrayList<String> registeredOwners)
+    public void setRegisteredOwners(ArrayList<PropertyOwner> registeredOwners)
     {
         this.registeredOwners = registeredOwners;
     }
@@ -168,7 +166,7 @@ public class PropertyManagement
     public void readPropertiesFile()
     {
         ArrayList<Property> props = new ArrayList<>();
-        ArrayList<String> own = new ArrayList<>();
+        ArrayList<PropertyOwner> own = new ArrayList<>();
         try
         {
             BufferedReader csvReader = new BufferedReader(new FileReader("Properties.csv"));
@@ -189,7 +187,7 @@ public class PropertyManagement
                     props.add(a);
                     if (!own.contains(spl[0]))
                     {
-                        own.add(spl[0]);
+                        own.add(new PropertyOwner(spl[0]));
                     }
                 }
                 i++;
@@ -208,6 +206,42 @@ public class PropertyManagement
         registeredOwners = own;
 
     }
+
+    public void initializing()
+    {
+        try
+        {
+
+            for (PropertyOwner j : registeredOwners)
+            {
+
+                FileWriter csvWrite = new FileWriter(j.getName().toUpperCase() + ".csv");
+
+                csvWrite.append("Owner");
+                csvWrite.append(",");
+                csvWrite.append("Address");
+                csvWrite.append(",");
+                csvWrite.append("Eircode");
+                csvWrite.append(",");
+                csvWrite.append("Market Value");
+                csvWrite.append(",");
+                csvWrite.append("Location");
+                csvWrite.append(",");
+                csvWrite.append("Private Residence");
+                csvWrite.append("\n");
+
+                csvWrite.flush();
+                csvWrite.close();
+            }
+
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(Property.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+        
 
     public void addToPropertiesFile(Property a)
     {
@@ -240,8 +274,6 @@ public class PropertyManagement
                 Logger.getLogger(Property.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        //readPropertiesFile();
     }
 
     private void removeFromPropertiesFile(Property a)
