@@ -98,17 +98,19 @@ public class FXGuiOwner extends Application {
     private Label l22 = new Label("Enter eircode routing key:");
     private TextField t12 = new TextField();
     
+    
+    private Label l23 = new Label();    
     @Override
     public void start(Stage primaryStage) {
-        GridPane grid1 = new GridPane();
-        grid1.setAlignment(Pos.CENTER);
-        grid1.setHgap(10);
-        grid1.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
 
-        grid1.add(l1, 0, 0);
-        grid1.add(b1, 0, 1);
-        grid1.add(b2, 0, 2);
-        grid1.add(exit, 1, 3);
+        grid.add(l1, 0, 0);
+        grid.add(b1, 0, 1);
+        grid.add(b2, 0, 2);
+        grid.add(exit, 1, 3);
 
         b1.setOnAction(e -> name());
         b2.setOnAction(new EventHandler<ActionEvent>(){
@@ -124,7 +126,7 @@ public class FXGuiOwner extends Application {
         ExitHandlerClass handler1 = new ExitHandlerClass();
         exit.setOnAction(handler1);
         
-        Scene scene = new Scene(grid1, 500, 500);
+        Scene scene = new Scene(grid, 500, 500);
         primaryStage.setTitle("Welcome");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -133,19 +135,19 @@ public class FXGuiOwner extends Application {
 
     //start of windows for owner
     public void name() {
-        GridPane grid2 = new GridPane();
-        grid2.setAlignment(Pos.CENTER);
-        grid2.setHgap(10);
-        grid2.setVgap(10);       
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);       
 
-        grid2.add(l2, 0, 0);
-        grid2.add(t1, 1, 0);
-        grid2.add(enter, 0, 1);
-        grid2.add(exit, 1, 1);
+        grid.add(l2, 0, 0);
+        grid.add(t1, 1, 0);
+        grid.add(enter, 0, 1);
+        grid.add(exit, 1, 1);
 
         enter.setOnAction(e -> ownerOptions());
 
-        Scene secondScene = new Scene(grid2, 500, 500);
+        Scene secondScene = new Scene(grid, 500, 500);
         secondWindow = new Stage();
         secondWindow.setTitle("Name");
         secondWindow.setScene(secondScene);
@@ -154,27 +156,27 @@ public class FXGuiOwner extends Application {
 
     public void ownerOptions() {
         secondWindow.close();
-        GridPane grid3 = new GridPane();
-        grid3.setAlignment(Pos.CENTER);
-        grid3.setHgap(10);
-        grid3.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
 
         name = t1.getText();
         owner = new PropertyOwner(name); // need to check if owner exists already
 
-        grid3.add(l3, 0, 0);
-        grid3.add(b3, 0, 1);
-        grid3.add(b4, 0, 2);
-        grid3.add(b5, 0, 3);
-        grid3.add(b6, 0, 4);
-        grid3.add(exit, 0, 5);
+        grid.add(l3, 0, 0);
+        grid.add(b3, 0, 1);
+        grid.add(b4, 0, 2);
+        grid.add(b5, 0, 3);
+        grid.add(b6, 0, 4);
+        grid.add(exit, 0, 5);
 
         b3.setOnAction(e -> registerProp());
         b4.setOnAction(e -> payTax());
         b5.setOnAction(e -> viewProperties());
         b6.setOnAction(e -> viewPayments());
 
-        Scene thirdScene = new Scene(grid3, 500, 500);
+        Scene thirdScene = new Scene(grid, 500, 500);
         secondWindow = new Stage();
         secondWindow.setTitle("Property details");
         secondWindow.setScene(thirdScene);
@@ -183,28 +185,28 @@ public class FXGuiOwner extends Application {
 
     public void registerProp() {
         secondWindow.close();
-        GridPane grid4 = new GridPane();
-        grid4.setAlignment(Pos.CENTER);
-        grid4.setHgap(10);
-        grid4.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
 
-        grid4.add(l4, 0, 0);
-        grid4.add(l5, 0, 1);
-        grid4.add(l6, 0, 2);
-        grid4.add(l7, 0, 3);
-        grid4.add(l8, 0, 4);
-        grid4.add(l9, 0, 5);
-        grid4.add(t2, 1, 1);
-        grid4.add(t3, 1, 2);
-        grid4.add(t4, 1, 3);
-        grid4.add(t5, 1, 4);
-        grid4.add(t6, 1, 5);
-        grid4.add(enter, 0, 6);
-        grid4.add(exit, 1, 6);
+        grid.add(l4, 0, 0);
+        grid.add(l5, 0, 1);
+        grid.add(l6, 0, 2);
+        grid.add(l7, 0, 3);
+        grid.add(l8, 0, 4);
+        grid.add(l9, 0, 5);
+        grid.add(t2, 1, 1);
+        grid.add(t3, 1, 2);
+        grid.add(t4, 1, 3);
+        grid.add(t5, 1, 4);
+        grid.add(t6, 1, 5);
+        grid.add(enter, 0, 6);
+        grid.add(exit, 1, 6);
 
         enter.setOnAction(e -> finishRegisterProp());
 
-        Scene fourthScene = new Scene(grid4, 500, 500);
+        Scene fourthScene = new Scene(grid, 500, 500);
         secondWindow = new Stage();
         secondWindow.setTitle("Property details");
         secondWindow.setScene(fourthScene);
@@ -213,19 +215,19 @@ public class FXGuiOwner extends Application {
 
     public void payTax() {
         secondWindow.close();
-        GridPane grid6 = new GridPane();
-        grid6.setAlignment(Pos.CENTER);
-        grid6.setHgap(10);
-        grid6.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
 
-        grid6.add(l11, 0, 0);
-        grid6.add(t7, 0, 1);
-        grid6.add(enter, 0, 2);
-        grid6.add(exit, 0, 3);
+        grid.add(l11, 0, 0);
+        grid.add(t7, 0, 1);
+        grid.add(enter, 0, 2);
+        grid.add(exit, 0, 3);
 
         enter.setOnAction(e -> continuePayTax());
 
-        Scene sixthScene = new Scene(grid6, 500, 500);
+        Scene sixthScene = new Scene(grid, 500, 500);
         secondWindow = new Stage();
         secondWindow.setTitle("Pay Tax");
         secondWindow.setScene(sixthScene);
@@ -234,15 +236,14 @@ public class FXGuiOwner extends Application {
 
     public void viewProperties() {
         secondWindow.close();
-        GridPane grid9 = new GridPane();
-        grid9.setAlignment(Pos.CENTER);
-        grid9.setHgap(10);
-        grid9.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
 
         owner.viewProperties();
-        //System.out.println(owner.toString());
 
-        Scene ninthScene = new Scene(grid9, 500, 500);
+        Scene ninthScene = new Scene(grid, 500, 500);
         secondWindow = new Stage();
         secondWindow.setTitle("Pay Tax");
         secondWindow.setScene(ninthScene);
@@ -252,19 +253,19 @@ public class FXGuiOwner extends Application {
 
     public void viewPayments() {
         secondWindow.close();
-        GridPane grid10 = new GridPane();
-        grid10.setAlignment(Pos.CENTER);
-        grid10.setHgap(10);
-        grid10.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
         
-        grid10.add(l15, 0, 0);
-        grid10.add(t8, 1, 0);
-        grid10.add(enter, 1, 1);
-        grid10.add(exit, 0, 1);
+        grid.add(l15, 0, 0);
+        grid.add(t8, 1, 0);
+        grid.add(enter, 1, 1);
+        grid.add(exit, 0, 1);
         
         enter.setOnAction(e -> finishViewPayments());
 
-        Scene tenthScene = new Scene(grid10, 500, 500);
+        Scene tenthScene = new Scene(grid, 500, 500);
         secondWindow = new Stage();
         secondWindow.setTitle("Payment Records");
         secondWindow.setScene(tenthScene);
@@ -273,10 +274,10 @@ public class FXGuiOwner extends Application {
     
     public void finishViewPayments(){
         secondWindow.close();
-        GridPane grid11 = new GridPane();
-        grid11.setAlignment(Pos.CENTER);
-        grid11.setHgap(10);
-        grid11.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
         
         String s = null;
         for(int i=0; i<owner.getProperties().size(); i++){
@@ -287,9 +288,9 @@ public class FXGuiOwner extends Application {
         ta1.setEditable(false);
         ta1.setText(s);
         
-        grid11.add(ta1, 0, 0);
+        grid.add(ta1, 0, 0);
         
-        Scene eleventhScene = new Scene(grid11, 500, 500);
+        Scene eleventhScene = new Scene(grid, 500, 500);
         secondWindow = new Stage();
         secondWindow.setTitle("Payment Records");
         secondWindow.setScene(eleventhScene);
@@ -298,10 +299,10 @@ public class FXGuiOwner extends Application {
 
     public void finishRegisterProp() {
         secondWindow.close();
-        GridPane grid5 = new GridPane();
-        grid5.setAlignment(Pos.CENTER);
-        grid5.setHgap(10);
-        grid5.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
 
         address = t2.getText();
         eircode = t3.getText();
@@ -313,21 +314,20 @@ public class FXGuiOwner extends Application {
         } else {
             principalPrivateResidence = false;
         }
-        System.out.println(address);
         
-        //a = new Property(name, address, eircode, marketValue, location, principalPrivateResidence);
         owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence); //not adding to array list
-        //owner.addProperty(a);
+        
+        //l23.setText(owner.toString());
         
         System.out.println(owner.toString());
         
-        grid5.add(l10, 0, 0);
-        grid5.add(b7, 0, 1);
-        grid5.add(exit, 0, 2);
+        grid.add(l10, 0, 0);
+        grid.add(b7, 0, 1);
+        grid.add(exit, 0, 2);
 
         b7.setOnAction(e -> ownerOptions());
 
-        Scene fifthScene = new Scene(grid5, 500, 500);
+        Scene fifthScene = new Scene(grid, 500, 500);
         secondWindow = new Stage();
         secondWindow.setTitle("Property details");
         secondWindow.setScene(fifthScene);
@@ -337,26 +337,24 @@ public class FXGuiOwner extends Application {
 
     public void continuePayTax() {
         secondWindow.close();
-        GridPane grid7 = new GridPane();
-        grid7.setAlignment(Pos.CENTER);
-        grid7.setHgap(10);
-        grid7.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
 
         //need to check if address matches property in owners property array
-        double tax = owner.getProperty(t7.getText()).taxDue(); //not working
-  
-        //double tax = a.taxDue();
+        double tax = owner.getProperty(t7.getText()).taxDue(); //not working null pointer exception
         
         l13.setText(Double.toString(tax));
 
-        grid7.add(l12, 0, 0);
-        grid7.add(l13, 1, 0);
-        grid7.add(b8, 2, 0);
-        grid7.add(exit, 2, 1);
+        grid.add(l12, 0, 0);
+        grid.add(l13, 1, 0);
+        grid.add(b8, 2, 0);
+        grid.add(exit, 2, 1);
 
         b8.setOnAction(e -> finishPayTax());
 
-        Scene seventhScene = new Scene(grid7, 500, 500);
+        Scene seventhScene = new Scene(grid, 500, 500);
         secondWindow = new Stage();
         secondWindow.setTitle("Pay Tax");
         secondWindow.setScene(seventhScene);
@@ -365,31 +363,27 @@ public class FXGuiOwner extends Application {
 
     public void finishPayTax() {
         secondWindow.close();
-        GridPane grid8 = new GridPane();
-        grid8.setAlignment(Pos.CENTER);
-        grid8.setHgap(10);
-        grid8.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
 
-        grid8.add(l14, 0, 0);
-        grid8.add(b7, 0, 1);
-        grid8.add(exit, 0, 2);
+        grid.add(l14, 0, 0);
+        grid.add(b7, 0, 1);
+        grid.add(exit, 0, 2);
 
         owner.payTax(owner.getProperty(t7.getText()));
 
-        //owner.payTax(a);
-        
         b7.setOnAction(e -> ownerOptions());
 
-        Scene eighthScene = new Scene(grid8, 500, 500);
+        Scene eighthScene = new Scene(grid, 500, 500);
         secondWindow = new Stage();
         secondWindow.setTitle("Pay Tax");
         secondWindow.setScene(eighthScene);
         secondWindow.show();
     }
-    //end of windows for owner
     
 }
-
 class ExitHandlerClass implements EventHandler<ActionEvent> {
 
     @Override
