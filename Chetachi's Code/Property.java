@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 /**
  *
  * @author Samuel O'Mahony (19236719)
- * @author Chetachi Nwarie (19244355)
  */
 public class Property
 {
@@ -55,11 +54,10 @@ public class Property
         this.principalPrivateResidence = principalPrivateResidence;
         this.owner = owner;
         initializingFiles();
+        //Chetachi's Additions
 
     }
 
-    
-        //Chetachi's Additions
     private void initializingFiles()
     {
         try
@@ -243,6 +241,7 @@ public class Property
         return null;
     }
 
+    //Done
     public double taxDue()
     {
         //fixed rate
@@ -294,12 +293,14 @@ public class Property
         return taxDue;
     }
 
+    //Shouldnt take any input.
     public void deleteProperty()
     {
         String[] files =
         {
             "Properties.csv", this.owner.toUpperCase() + ".csv"
         };
+        //  String filename = "Properties.csv";
 
         for (String f : files)
         {
@@ -338,6 +339,7 @@ public class Property
 
     private void removePropertyFrom(String filename)
     {
+        //  String filename = "Properties.csv";
 
         try
         {
@@ -365,8 +367,14 @@ public class Property
             System.err.println("Problem reading file.");
         }
 
+        /*
+        File a = new File(this.address.toUpperCase() + " Payment Records.csv");
+        a.delete();
+        paymentRecords.clear();
+         */
     }
 
+    //Done
     public void removeFromPaymentFile(PaymentRecord a)
     {
         paymentRecords.remove(a);
@@ -428,6 +436,7 @@ public class Property
 
     }
 
+    //Done
     public ArrayList<PaymentRecord> getOverdueRecords()
     {
         ArrayList<PaymentRecord> overdueRecords = new ArrayList<>();
@@ -443,6 +452,7 @@ public class Property
 
     }
 
+    //Done
     public void payTax()
     {
         ArrayList<PaymentRecord> overdueRecords = getOverdueRecords();
@@ -722,5 +732,3 @@ public class Property
     }
 
 }
-
-
