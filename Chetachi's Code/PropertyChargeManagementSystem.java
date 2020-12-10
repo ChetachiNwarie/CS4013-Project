@@ -58,9 +58,9 @@ public class PropertyChargeManagementSystem
         }
         else if (command.equals("O"))
             {
-                for (String a : prop.getRegisteredOwners())
+                for (PropertyOwner a : prop.getRegisteredOwners())
                 {
-                    System.out.println(a);
+                    System.out.println(a.getName());
                 }
             }
             else if (command.equals("I")) //allows one coin be inserted at a time
