@@ -30,6 +30,7 @@ public class FXGuiOwner extends Application {
     private String location;
     private boolean principalPrivateResidence;
     private PropertyOwner owner;
+    private Property a;
        
     private Label ownerOrDeptL = new Label("Are you a property owner or Department of Environment?");
     private Button ownerBt = new Button("Owner");
@@ -72,8 +73,8 @@ public class FXGuiOwner extends Application {
     private Label taxDueL = new Label("Property tax due");
     private Label showTaxDueL = new Label();
     private Button payTaxBt = new Button("Pay tax");
-
-    private Label thanksTaxL = new Label("Thank you for paying your property tax");
+    private Label thanksTaxL = new Label();
+    private Button taxDueBt = new Button("Tax due");
 
     private Label yearL = new Label("Enter year");
     private TextField yearTf = new TextField();
@@ -174,7 +175,52 @@ public class FXGuiOwner extends Application {
         grid.add(enter, 0, 11);
         grid.add(exit, 1, 11);
 
-        enter.setOnAction(e -> finishRegisterProp());
+        enter.setOnAction(e -> confirmRegisterProp());
+
+        newStage.setTitle("Property details");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+    
+    public void confirmRegisterProp() {
+        newStage.close();
+        grid.getChildren().clear();
+
+        address = addressTf.getText().toUpperCase();
+        eircode = eircodeTf.getText();
+        marketValue = Double.parseDouble(marketValueTf.getText());
+        if(cityRb.isSelected()){
+            location = "city";
+        }
+        if(largeTownRb.isSelected()){
+            location = "large town";
+        }
+        if(smallTownRb.isSelected()){
+            location = "small town";
+        }
+        if(villageRb.isSelected()){
+            location = "village";
+        }
+        if(countrysideRb.isSelected()){
+            location = "countryside";
+        }
+        if(yesPprRb.isSelected()){
+            principalPrivateResidence = true;
+        }
+        else if(noPprRb.isSelected()){
+            principalPrivateResidence = false;
+        }
+        
+        //owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence); //not adding to array list
+        a = new Property(name, address, marketValue, location, principalPrivateResidence); //only used to get rid of error to view layout
+        owner.addProperty(a); // only used to get rid of error to view layout
+        System.out.println(owner.toString());
+        
+        grid.add(thanksRegisterL, 0, 0);
+        grid.add(backToMenuBt, 0, 1);
+        grid.add(exit, 0, 2);
+
+        backToMenuBt.setOnAction(e -> ownerOptions());
 
         newStage.setTitle("Property details");
         newStage.setScene(scene);
@@ -186,17 +232,36 @@ public class FXGuiOwner extends Application {
         grid.getChildren().clear();
 
         grid.add(enterTaxAddressL, 0, 0);
-        grid.add(taxAddressTf, 0, 1);
-        grid.add(enter, 0, 2);
-        grid.add(exit, 0, 3);
+        grid.add(taxAddressTf, 1, 0);
+        grid.add(taxDueL, 0, 1);
+        grid.add(showTaxDueL, 1, 1);
+        grid.add(payTaxBt, 1, 2);
+        grid.add(taxDueBt, 0, 2);
+        grid.add(thanksTaxL, 0, 3);
+        grid.add(backToMenuBt, 0, 4);
 
-        enter.setOnAction(e -> continuePayTax());
+        taxDueBt.setOnAction(e -> calculateTax());
+        payTaxBt.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                a.payTax(); // only used to get rid of error to see layout
+                thanksTaxL.setText("Thank you for paying");
+                backToMenuBt.setOnAction(e -> ownerOptions());
+            }
+        });
 
         newStage.setTitle("Pay Tax");
         newStage.setScene(scene);
         newStage.show();
     }
-
+    
+    public void calculateTax() {
+        //need to check if address matches property in owners property array
+        //double tax = owner.getProperty(taxAddressTf.getText()).taxDue(); //not working null pointer exception
+        double tax = a.taxDue(); //only used to get rid of error to see layout
+        showTaxDueL.setText(Double.toString(tax));
+    }
+    
     public void viewProperties() {
         newStage.close();
         grid.getChildren().clear();
@@ -243,91 +308,7 @@ public class FXGuiOwner extends Application {
         newStage.setTitle("Payment Records");
         newStage.setScene(scene);
         newStage.show();
-    }
-
-    public void finishRegisterProp() {
-        newStage.close();
-        grid.getChildren().clear();
-
-        address = addressTf.getText().toUpperCase();
-        eircode = eircodeTf.getText();
-        marketValue = Double.parseDouble(marketValueTf.getText());
-        if(cityRb.isSelected()){
-            location = "city";
-        }
-        if(largeTownRb.isSelected()){
-            location = "large town";
-        }
-        if(smallTownRb.isSelected()){
-            location = "small town";
-        }
-        if(villageRb.isSelected()){
-            location = "village";
-        }
-        if(countrysideRb.isSelected()){
-            location = "countryside";
-        }
-        if(yesPprRb.isSelected()){
-            principalPrivateResidence = true;
-        }
-        else if(noPprRb.isSelected()){
-            principalPrivateResidence = false;
-        }
-        
-        owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence); //not adding to array list
-        
-        System.out.println(owner.toString());
-        
-        grid.add(thanksRegisterL, 0, 0);
-        grid.add(backToMenuBt, 0, 1);
-        grid.add(exit, 0, 2);
-
-        backToMenuBt.setOnAction(e -> ownerOptions());
-
-        newStage.setTitle("Property details");
-        newStage.setScene(scene);
-        newStage.show();
-    }
-    
-
-    public void continuePayTax() {
-        newStage.close();
-        grid.getChildren().clear();
-
-        //need to check if address matches property in owners property array
-        double tax = owner.getProperty(taxAddressTf.getText()).taxDue(); //not working null pointer exception
-        
-        showTaxDueL.setText(Double.toString(tax));
-
-        grid.add(taxDueL, 0, 0);
-        grid.add(showTaxDueL, 1, 0);
-        grid.add(payTaxBt, 2, 0);
-        grid.add(exit, 2, 1);
-
-        payTaxBt.setOnAction(e -> finishPayTax());
-
-        newStage.setTitle("Pay Tax");
-        newStage.setScene(scene);
-        newStage.show();
-    }
-
-    public void finishPayTax() {
-        newStage.close();
-        grid.getChildren().clear();
-
-        grid.add(thanksTaxL, 0, 0);
-        grid.add(backToMenuBt, 0, 1);
-        grid.add(exit, 0, 2);
-
-        owner.payTax(owner.getProperty(taxAddressTf.getText()));
-
-        backToMenuBt.setOnAction(e -> ownerOptions());
-
-        newStage.setTitle("Pay Tax");
-        newStage.setScene(scene);
-        newStage.show();
-    }
-    
+    }   
 }
 
 class ExitHandlerClass implements EventHandler<ActionEvent> {
