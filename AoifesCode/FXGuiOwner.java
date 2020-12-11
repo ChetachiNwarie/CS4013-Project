@@ -33,8 +33,8 @@ public class FXGuiOwner extends Application {
     private Property a;
        
     private Label ownerOrDeptL = new Label("Are you a property owner or Department of Environment?");
-    private Button ownerBt = new Button("Owner");
-    private Button deptBt = new Button("Department");
+    private RadioButton ownerRb = new RadioButton("Owner");
+    private RadioButton deptRb = new RadioButton("Department");
     private Button exit = new Button("Exit");
     
     private Label enterNameL = new Label("Enter name:");
@@ -42,10 +42,10 @@ public class FXGuiOwner extends Application {
     private Button enter = new Button("Enter");
     
     private Label optionsL = new Label("Do you want to:");
-    private Button registerBt = new Button("Register a property");
-    private Button payTaxDueBt = new Button("Pay tax due");
-    private Button viewPropBt = new Button("View your properties");
-    private Button statementBt = new Button("Get statement for a particular year");
+    private RadioButton registerRb = new RadioButton("Register a property");
+    private RadioButton payTaxDueRb = new RadioButton("Pay tax due");
+    private RadioButton viewPropRb = new RadioButton("View your properties");
+    private RadioButton statementRb = new RadioButton("Get statement for a particular year");
 
     private Label enterDetailsL = new Label("Enter your details");
     private Label enterAddressL = new Label("Address");
@@ -88,12 +88,12 @@ public class FXGuiOwner extends Application {
         grid.setVgap(10);
 
         grid.add(ownerOrDeptL, 0, 0);
-        grid.add(ownerBt, 0, 1);
-        grid.add(deptBt, 0, 2);
+        grid.add(ownerRb, 0, 1);
+        grid.add(deptRb, 0, 2);
         grid.add(exit, 1, 3);
 
-        ownerBt.setOnAction(e -> name());
-        deptBt.setOnAction(new EventHandler<ActionEvent>(){
+        ownerRb.setOnAction(e -> name());
+        deptRb.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
                 FXGuiDept dept = new FXGuiDept();
@@ -136,16 +136,16 @@ public class FXGuiOwner extends Application {
         owner = new PropertyOwner(name); // need to check if owner exists already
 
         grid.add(optionsL, 0, 0);
-        grid.add(registerBt, 0, 1);
-        grid.add(payTaxDueBt, 0, 2);
-        grid.add(viewPropBt, 0, 3);
-        grid.add(statementBt, 0, 4);
+        grid.add(registerRb, 0, 1);
+        grid.add(payTaxDueRb, 0, 2);
+        grid.add(viewPropRb, 0, 3);
+        grid.add(statementRb, 0, 4);
         grid.add(exit, 0, 5);
 
-        registerBt.setOnAction(e -> registerProp());
-        payTaxBt.setOnAction(e -> payTax());
-        viewPropBt.setOnAction(e -> viewProperties());
-        statementBt.setOnAction(e -> viewPayments());
+        registerRb.setOnAction(e -> registerProp());
+        payTaxRb.setOnAction(e -> payTax());
+        viewPropRb.setOnAction(e -> viewProperties());
+        statementRb.setOnAction(e -> viewPayments());
 
         newStage.setTitle("Property details");
         newStage.setScene(scene);
