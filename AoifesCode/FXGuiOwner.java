@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.RadioButton;
 
 /**
  *
@@ -54,8 +55,13 @@ public class FXGuiOwner extends Application {
     private TextField addressTf = new TextField();
     private TextField eircodeTf = new TextField();
     private TextField marketValueTf = new TextField();
-    private TextField locationTf = new TextField();
-    private TextField pprTf = new TextField();
+    private RadioButton cityRb = new RadioButton("City");
+    private RadioButton largeTownRb = new RadioButton("Large Town");
+    private RadioButton smallTownRb = new RadioButton("Small Town");
+    private RadioButton villageRb = new RadioButton("Village");
+    private RadioButton countrysideRb = new RadioButton("Countyside");
+    private RadioButton yesPprRb = new RadioButton("Yes");
+    private RadioButton noPprRb = new RadioButton("No");
 
     private Label thanksRegisterL = new Label("Thank you for registering your property");
     private Button backToMenuBt = new Button("Back to menu");
@@ -154,14 +160,19 @@ public class FXGuiOwner extends Application {
         grid.add(enterEircodeL, 0, 2);
         grid.add(enterValueL, 0, 3);
         grid.add(enterLocationL, 0, 4);
-        grid.add(enterPprL, 0, 5);
+        grid.add(enterPprL, 0, 9);
         grid.add(addressTf, 1, 1);
         grid.add(eircodeTf, 1, 2);
         grid.add(marketValueTf, 1, 3);
-        grid.add(locationTf, 1, 4);
-        grid.add(pprTf, 1, 5);
-        grid.add(enter, 0, 6);
-        grid.add(exit, 1, 6);
+        grid.add(cityRb, 1, 4);
+        grid.add(largeTownRb, 1 ,5);
+        grid.add(smallTownRb, 1, 6);
+        grid.add(villageRb, 1, 7);
+        grid.add(countrysideRb, 1, 8);
+        grid.add(yesPprRb, 1, 9);
+        grid.add(noPprRb, 1, 10);
+        grid.add(enter, 0, 11);
+        grid.add(exit, 1, 11);
 
         enter.setOnAction(e -> finishRegisterProp());
 
@@ -241,11 +252,25 @@ public class FXGuiOwner extends Application {
         address = addressTf.getText().toUpperCase();
         eircode = eircodeTf.getText();
         marketValue = Double.parseDouble(marketValueTf.getText());
-        location = locationTf.getText();
-        String ppr = pprTf.getText().toUpperCase();
-        if (ppr.equals("YES")) {
+        if(cityRb.isSelected()){
+            location = "city";
+        }
+        if(largeTownRb.isSelected()){
+            location = "large town";
+        }
+        if(smallTownRb.isSelected()){
+            location = "small town";
+        }
+        if(villageRb.isSelected()){
+            location = "village";
+        }
+        if(countrysideRb.isSelected()){
+            location = "countryside";
+        }
+        if(yesPprRb.isSelected()){
             principalPrivateResidence = true;
-        } else {
+        }
+        else if(noPprRb.isSelected()){
             principalPrivateResidence = false;
         }
         
