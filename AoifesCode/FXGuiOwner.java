@@ -118,8 +118,8 @@ public class FXGuiOwner extends Application {
         
         grid.add(enterNameL, 0, 0);
         grid.add(nameTf, 1, 0);
-        grid.add(enter, 0, 1);
-        grid.add(exit, 1, 1);
+        grid.add(enter, 1, 1);
+        grid.add(exit, 0, 1);
 
         enter.setOnAction(e -> ownerOptions());
 
@@ -172,8 +172,8 @@ public class FXGuiOwner extends Application {
         grid.add(countrysideRb, 1, 8);
         grid.add(yesPprRb, 1, 9);
         grid.add(noPprRb, 1, 10);
-        grid.add(enter, 0, 11);
-        grid.add(exit, 1, 11);
+        grid.add(enter, 1, 11);
+        grid.add(exit, 0, 11);
 
         enter.setOnAction(e -> confirmRegisterProp());
 
@@ -211,9 +211,7 @@ public class FXGuiOwner extends Application {
             principalPrivateResidence = false;
         }
         
-        //owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence); //not adding to array list
-        a = new Property(name, address, marketValue, location, principalPrivateResidence); //only used to get rid of error to view layout
-        owner.addProperty(a); // only used to get rid of error to view layout
+        owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence); //not adding to array list
         System.out.println(owner.toString());
         
         grid.add(thanksRegisterL, 0, 0);
@@ -244,7 +242,11 @@ public class FXGuiOwner extends Application {
         payTaxBt.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                a.payTax(); // only used to get rid of error to see layout
+                for (int i = 0; i < owner.getProperties().size(); i++) {
+                    if (owner.getProperties().get(i).getAddress().equals(taxAddressTf)) {
+                        owner.payTax(owner.getProperties().get(i));
+                    }
+                }
                 thanksTaxL.setText("Thank you for paying");
                 backToMenuBt.setOnAction(e -> ownerOptions());
             }
@@ -256,9 +258,12 @@ public class FXGuiOwner extends Application {
     }
     
     public void calculateTax() {
-        //need to check if address matches property in owners property array
-        //double tax = owner.getProperty(taxAddressTf.getText()).taxDue(); //not working null pointer exception
-        double tax = a.taxDue(); //only used to get rid of error to see layout
+        double tax = 0.0;
+        for (int i = 0; i < owner.getProperties().size(); i++) {
+            if (owner.getProperties().get(i).getAddress().equals(taxAddressTf)) { //error reading file
+                tax = owner.getProperties().get(i).taxDue();
+            }
+        }
         showTaxDueL.setText(Double.toString(tax));
     }
     
@@ -304,6 +309,7 @@ public class FXGuiOwner extends Application {
         viewPaymentsTa.setText(s);
         
         grid.add(viewPaymentsTa, 0, 0);
+        grid.add(exit, 0, 1);
         
         newStage.setTitle("Payment Records");
         newStage.setScene(scene);
@@ -312,7 +318,6 @@ public class FXGuiOwner extends Application {
 }
 
 class ExitHandlerClass implements EventHandler<ActionEvent> {
-
     @Override
     public void handle(ActionEvent e) {
         System.exit(0);
