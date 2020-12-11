@@ -24,11 +24,11 @@ public class FXGuiDept extends Application{
     private Button continueBt = new Button("Continue");
     
     private Label optionsL = new Label("Do you want to:");
-    private Button dataParticularPropBt = new Button("Get property tax payment data for a particular property");
-    private Button dataParticularOwnerBt = new Button("Get property tax payment data for a particular property owner");
-    private Button overdueTaxBt = new Button("Get a list of all overdue property tax for a particular year");
-    private Button dataParticularAreaBt = new Button("Get property tax statistics for a particular area");
-    private Button investigateBt = new Button("Investigate the impact of possible changes to the rates and levies");
+    private RadioButton dataParticularPropRb = new RadioButton("Get property tax payment data for a particular property");
+    private RadioButton dataParticularOwnerRb = new RadioButton("Get property tax payment data for a particular property owner");
+    private RadioButton overdueTaxRb = new RadioButton("Get a list of all overdue property tax for a particular year");
+    private RadioButton dataParticularAreaRb = new RadioButton("Get property tax statistics for a particular area");
+    private RadioButton investigateRb = new RadioButton("Investigate the impact of possible changes to the rates and levies");
     private Button exit = new Button("Exit");
     
     private Button enter = new Button("Enter");
@@ -73,20 +73,20 @@ public class FXGuiDept extends Application{
         grid.getChildren().clear();
         
         grid.add(optionsL, 0, 0);
-        grid.add(dataParticularPropBt, 0, 1);
-        grid.add(dataParticularOwnerBt, 0, 2);
-        grid.add(overdueTaxBt, 0, 3);
-        grid.add(dataParticularAreaBt, 0, 4);
-        grid.add(investigateBt, 0, 5);
+        grid.add(dataParticularPropRb, 0, 1);
+        grid.add(dataParticularOwnerRb, 0, 2);
+        grid.add(overdueTaxRb, 0, 3);
+        grid.add(dataParticularAreaRb, 0, 4);
+        grid.add(investigateRb, 0, 5);
         grid.add(exit, 0, 6);
         
         ExitHandlerClass handle = new ExitHandlerClass();
         exit.setOnAction(handle);
-        dataParticularPropBt.setOnAction(e -> propData());
-        dataParticularOwnerBt.setOnAction(e -> ownerData());
-        overdueTaxBt.setOnAction(e -> overdueData());
-        dataParticularAreaBt.setOnAction(e -> areaStats());
-        investigateBt.setOnAction(e -> investigateChanges());
+        dataParticularPropRb.setOnAction(e -> propData());
+        dataParticularOwnerRb.setOnAction(e -> ownerData());
+        overdueTaxRb.setOnAction(e -> overdueData());
+        dataParticularAreaRb.setOnAction(e -> areaStats());
+        investigateRb.setOnAction(e -> investigateChanges());
         
         newStage.setTitle("Department Options");
         newStage.setScene(scene);
