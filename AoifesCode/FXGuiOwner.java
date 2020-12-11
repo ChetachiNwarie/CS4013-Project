@@ -22,6 +22,7 @@ public class FXGuiOwner extends Application {
     private Stage newStage = new Stage();
     
     private DepartmentManagementMenu dmm = new DepartmentManagementMenu();
+    private PropertyManagement pm = new PropertyManagement();
     
     private String name;
     private String address;
@@ -30,8 +31,7 @@ public class FXGuiOwner extends Application {
     private String location;
     private boolean principalPrivateResidence;
     private PropertyOwner owner;
-    private Property a;
-       
+   
     private Label ownerOrDeptL = new Label("Are you a property owner or Department of Environment?");
     private RadioButton ownerRb = new RadioButton("Owner");
     private RadioButton deptRb = new RadioButton("Department");
@@ -80,6 +80,8 @@ public class FXGuiOwner extends Application {
     private TextField yearTf = new TextField();
 
     private TextArea viewPaymentsTa = new TextArea();
+    
+    private TextArea viewPropertiesTa = new TextArea();
         
     @Override
     public void start(Stage primaryStage) {
@@ -133,7 +135,16 @@ public class FXGuiOwner extends Application {
         grid.getChildren().clear();
 
         name = nameTf.getText();
-        owner = new PropertyOwner(name); // need to check if owner exists already
+        
+        for( int i=0; i < pm.getRegisteredOwners().size(); i++ )
+        {
+            if( name.equals(pm.getRegisteredOwners().get(i).getName()) )
+                owner = pm.getRegisteredOwners().get(i);
+            else{
+                owner = new PropertyOwner(name);
+            }
+        }
+        pm.registerOwner(owner);
 
         grid.add(optionsL, 0, 0);
         grid.add(registerRb, 0, 1);
@@ -147,7 +158,7 @@ public class FXGuiOwner extends Application {
         viewPropRb.setOnAction(e -> viewProperties());
         statementRb.setOnAction(e -> viewPayments());
 
-        newStage.setTitle("Property details");
+        newStage.setTitle("Owner Details");
         newStage.setScene(scene);
         newStage.show();
     }
@@ -177,7 +188,7 @@ public class FXGuiOwner extends Application {
 
         enter.setOnAction(e -> confirmRegisterProp());
 
-        newStage.setTitle("Property details");
+        newStage.setTitle("Register Property");
         newStage.setScene(scene);
         newStage.show();
     }
@@ -212,7 +223,7 @@ public class FXGuiOwner extends Application {
         }
         
         owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence); //not adding to array list
-        System.out.println(owner.toString());
+        pm.registerProperty(new Property(name, address, eircode, marketValue, location, principalPrivateResidence));
         
         grid.add(thanksRegisterL, 0, 0);
         grid.add(backToMenuBt, 0, 1);
@@ -220,7 +231,7 @@ public class FXGuiOwner extends Application {
 
         backToMenuBt.setOnAction(e -> ownerOptions());
 
-        newStage.setTitle("Property details");
+        newStage.setTitle("Register Property");
         newStage.setScene(scene);
         newStage.show();
     }
@@ -242,9 +253,11 @@ public class FXGuiOwner extends Application {
         payTaxBt.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for (int i = 0; i < owner.getProperties().size(); i++) {
-                    if (owner.getProperties().get(i).getAddress().equals(taxAddressTf)) {
-                        owner.payTax(owner.getProperties().get(i));
+                for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
+                    if (pm.getRegisteredProperties().get(i).getAddress().equals(taxAddressTf)) {
+                        //owner.payTax(pm.getRegisteredProperties().get(i)); //trying to get around error
+                        pm.getRegisteredProperties().get(i).payTax(); //saying tax wasnt paid
+                        pm.getRegisteredProperties().get(i).getRecord(LocalDateTime.now().getYear()).setWasPaid(true); //saying tax wasnt paid
                     }
                 }
                 thanksTaxL.setText("Thank you for paying");
@@ -259,9 +272,9 @@ public class FXGuiOwner extends Application {
     
     public void calculateTax() {
         double tax = 0.0;
-        for (int i = 0; i < owner.getProperties().size(); i++) {
-            if (owner.getProperties().get(i).getAddress().equals(taxAddressTf)) { //error reading file
-                tax = owner.getProperties().get(i).taxDue();
+        for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
+            if (pm.getRegisteredProperties().get(i).getAddress().equals(taxAddressTf.getText())) {
+                tax = pm.getRegisteredProperties().get(i).taxDue();
             }
         }
         showTaxDueL.setText(Double.toString(tax));
@@ -271,9 +284,20 @@ public class FXGuiOwner extends Application {
         newStage.close();
         grid.getChildren().clear();
 
-        owner.viewProperties();
+        String s = "";
+        for(int i=0; i<pm.getRegisteredProperties().size(); i++){
+            if(pm.getRegisteredProperties().get(i).getOwner().equals(name)){
+                s = s + pm.getRegisteredProperties().get(i).toString() + "\n";
+            }
+        }
+        viewPropertiesTa.setText(s);
+        viewPropertiesTa.setEditable(false);
+        
+        grid.add(viewPropertiesTa, 0, 0);
+        grid.add(backToMenuBt, 0, 1);
+        grid.add(exit, 0, 2);
 
-        newStage.setTitle("Pay Tax");
+        newStage.setTitle("View Properties");
         newStage.setScene(scene);
         newStage.show();
 
@@ -299,17 +323,21 @@ public class FXGuiOwner extends Application {
         newStage.close();
         grid.getChildren().clear();
         
-        String s = null;
-        for(int i=0; i<owner.getProperties().size(); i++){
-            s = owner.getProperties().get(i).getAddress() + "\n" + 
-                    owner.getProperties().get(i).getRecord(Integer.parseInt(yearTf.getText()));
+        String s = "";
+        for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
+            if(pm.getRegisteredProperties().get(i).getOwner().equals(name)){
+                s = pm.getRegisteredProperties().get(i).getAddress() + "\n"     //wont show payments for multiple properties
+                    + pm.getRegisteredProperties().get(i).getRecord(Integer.parseInt(yearTf.getText()));
+            }
+            
         }
         
         viewPaymentsTa.setEditable(false);
         viewPaymentsTa.setText(s);
         
         grid.add(viewPaymentsTa, 0, 0);
-        grid.add(exit, 0, 1);
+        grid.add(backToMenuBt, 0, 1);
+        grid.add(exit, 0, 2);
         
         newStage.setTitle("Payment Records");
         newStage.setScene(scene);
