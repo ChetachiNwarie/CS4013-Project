@@ -11,9 +11,9 @@ import javafx.scene.control.TextArea;
 
 /**
  *
- * @author Aoife Gleeson 19242395
+ * @author Aoife Gleeson (19242395)
  */
-public class FXGuiDept extends Application{
+public class DepartmentGui extends Application{
     private GridPane grid = new GridPane();
     private Scene scene = new Scene(grid, 500, 500);
     private Stage newStage = new Stage();
@@ -113,6 +113,10 @@ public class FXGuiDept extends Application{
     
     private Label statsL = new Label();
     
+    /**
+     * A method which creates the first window that welcomes the user
+     * @param primaryStage the first stage
+     */
     @Override
     public void start(Stage primaryStage){
         grid.setAlignment(Pos.CENTER);
@@ -129,7 +133,9 @@ public class FXGuiDept extends Application{
         primaryStage.show();
     }
     
-    // works
+    /**
+     * A method which displays the options the user has and allows them to select one using radio buttons
+     */
     public void deptOptions(){
         grid.getChildren().clear();
         
@@ -154,7 +160,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works
+    /**
+     * A method which allows the user to enter the address of a property to find data for that specific property
+     */
     public void propData(){
         newStage.close();
         grid.getChildren().clear();
@@ -170,7 +178,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works but could neaten layout
+    /**
+     * A method which displays the data for a particular property specified in propData()
+     */
     public void getPropData(){
         newStage.close();
         grid.getChildren().clear();
@@ -196,7 +206,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works
+    /**
+     * A method which allows the user to enter the name of an owner
+     */
     public void ownerData(){
         newStage.close();
         grid.getChildren().clear();
@@ -213,11 +225,13 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works
+    /**
+     * A method which displays data for a specific owner specified in ownerData()
+     */
     public void getOwnerData(){
         newStage.close();
         grid.getChildren().clear();
-        pm.getPropertyByOwner(ownerTf.getText()); //only used to get around array error. reads owner csv file and returns array of properties
+        pm.getPropertyByOwner(ownerTf.getText());
         
         String s = "";
         ArrayList<Property> ownerProps = pm.getPropertyByOwner(ownerTf.getText());
@@ -237,7 +251,10 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works
+    /**
+     * A method which gives the user an option of using the routing key of an eircode 
+     * to find data relating to overdue payments
+     */
     public void overdueData(){
         newStage.close();
         grid.getChildren().clear();
@@ -254,7 +271,9 @@ public class FXGuiDept extends Application{
         newStage.show();        
     }
     
-    // works
+    /**
+     * A method which allows the user to enter the year and routing key for which they want overdue payments data on
+     */
     public void setDetailsOverdueDataWithKey() {
         newStage.close();
         grid.getChildren().clear();
@@ -273,7 +292,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // doesnt work still need to fix
+     /**
+     * A method which displays the overdue payment data given the user selected to use the routing key and year
+     */
     public void getOverdueDataWithKey() {
         newStage.close();
         grid.getChildren().clear();
@@ -298,7 +319,6 @@ public class FXGuiDept extends Application{
             } 
         }
 
-
         getOverdueTaxL.setText(overdue);
 
         grid.add(getOverdueTaxL, 0, 0);
@@ -312,7 +332,10 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // not working yet
+   /**
+     * A method which allows the user to enter the year for which they want overdue 
+     * payments data on and displays the data when the enter button is pressed
+     */
     public void setDetailsOverdueDataWithoutKey() {
         newStage.close();
         grid.getChildren().clear();
@@ -356,7 +379,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works
+    /**
+     * A method which allows the user to enter the routing key to find statistics for that area
+     */
     public void areaStats(){
         newStage.close();
         grid.getChildren().clear();
@@ -366,15 +391,17 @@ public class FXGuiDept extends Application{
         grid.add(enter, 1, 1);
         grid.add(exit, 0, 1);
         
-        enter.setOnAction(e -> finishAreaStats());
+        enter.setOnAction(e -> getAreaStats());
         
         newStage.setTitle("Area Statistics");
         newStage.setScene(scene);
         newStage.show();
     }
     
-    // works but could neaten layout
-    public void finishAreaStats(){
+    /**
+     * A method that displays the statistics for the area specified in areaStats()
+     */
+    public void getAreaStats(){
         newStage.close();
         grid.getChildren().clear();
         
@@ -404,7 +431,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works
+    /**
+     * A method that gives the user options which allows them to change how tax is calculated
+     */
     public void investigateChanges() {
         newStage.close();
         grid.getChildren().clear();
@@ -432,7 +461,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
 
-    // works
+    /**
+     * A method which allows the user to change the fixed cost used to calculate property tax
+     */
     public void changeFixedCost() {
         newStage.close();
         grid.getChildren().clear();
@@ -467,7 +498,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
 
-    // works
+    /**
+     * A method which allows the user to change the brackets of the values for market value tax
+     */
     public void changeBracketValues() {
         newStage.close();
         grid.getChildren().clear();
@@ -510,7 +543,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works
+    /**
+     * A method which allows the user to change the rates for market value tax
+     */
     public void changeBracketRates(){
         newStage.close();
         grid.getChildren().clear();
@@ -556,7 +591,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works
+    /**
+     * A method which allows the user to change the rates for location category
+     */
     public void changeLocationRates(){
         newStage.close();
         grid.getChildren().clear();
@@ -605,7 +642,10 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works
+    /**
+     * A method which allows the user to the charge for the property not being the 
+     * principal private residence of the owner
+     */
     public void changePpr(){
         newStage.close();
         grid.getChildren().clear();
@@ -640,7 +680,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // works
+    /**
+     * A method which allows the user to change the penalty for previous unpaid years
+     */
     public void changePenalty(){
         newStage.close();
         grid.getChildren().clear();
@@ -675,7 +717,9 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // not working
+    /**
+     * A method which displays a series of statistics on payment records
+     */
     public void getStatistics(){
         newStage.close();
         grid.getChildren().clear();
