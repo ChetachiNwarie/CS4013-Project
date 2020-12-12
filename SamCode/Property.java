@@ -45,6 +45,15 @@ public class Property
     private static double unpaidPenalty = 0.07;
     private static int currentYear = LocalDate.now().getYear();
 
+    /**
+     * Constructor for objects of class Property 
+     * @param owner The owner of the property
+     * @param address The address of the property
+     * @param eircode The eircode of the property
+     * @param marketValue The market value of the property
+     * @param locationCategory The location category e.g. city, small town, countryside
+     * @param principalPrivateResidence Is the property the principal private residence of the owner? If yes then true, if no then false
+     */
     public Property(String owner, String address, String eircode, double marketValue, String locationCategory, boolean principalPrivateResidence)
     {
 
@@ -144,7 +153,6 @@ public class Property
         return paymentRecords;
     }
 
-    //Done
     public void setPaymentRecords(ArrayList<PaymentRecord> paymentRecords)
     {
         try
@@ -180,6 +188,8 @@ public class Property
         this.paymentRecords = paymentRecords;
     }
 
+    
+    //back to Sam
 /**
      * Sets the fixed cost
      * @param newCost The new fixed cost
@@ -228,16 +238,29 @@ public class Property
         unpaidPenalty=newPenalty;
     }
 
+    /**
+     * Returns the current year which comes from the LocalDate class.
+     * @return The current year.
+     */
     public static int getCurrentYear()
     {
         return currentYear;
     }
 
+    /**
+     * Sets the current year manually.
+     * @param currentYear The year to set as the current year.
+     */
     public static void setCurrentYear(int currentYear)
     {
         Property.currentYear = currentYear;
     }
 
+    /**
+     * Returns the PaymentRecord associated with a given year.
+     * @param year The year associated with the PaymentRecord to be returned.
+     * @return The PaymentRecord associated with the given year.
+     */
     public PaymentRecord getRecord(int year)
     {
 
@@ -260,57 +283,74 @@ public class Property
         return paymentRecords;
     }
 
-    public double taxDue()
-    {
+      /**
+     *  Calculates and returns the tax due on this property based on the fixed rate,
+     * market value, location and whether or not it is the principal private residence
+     * of the owner.
+     * @return The tax due on this property for just this year.
+     */
+     private double taxDueThisYear(){
         //fixed rate
         double taxDue = fixedCost;
 
         //rate based on market value
-        for (int i = 3; i >= 0; i--)
-        {
-            if (marketValue > valueBrackets[i])
-            {
-                taxDue += marketValue * valueBracketRates[i];
+        for(int i=3;i>=0;i--){
+            if(marketValue>valueBrackets[i]){
+                taxDue+=marketValue*valueBracketRates[i];
                 break;
             }
         }
 
         //charge based on location
-        switch (locationCategory)
-        {
+        switch(locationCategory){
 
-            case "city":
-                taxDue += 100;
-                break;
-            case "large town":
-                taxDue += 80;
-                break;
-            case "small town":
-                taxDue += 60;
+            case "countryside":
+                taxDue+=locationCatRates[0];
                 break;
             case "village":
-                taxDue += 50;
+                taxDue+=locationCatRates[1];
                 break;
-            case "countryside":
-                taxDue += 25;
+            case "small town":
+                taxDue+=locationCatRates[2];
                 break;
+            case "large town":
+                taxDue+=locationCatRates[3];
+                break;
+            case "city":
+                taxDue+=locationCatRates[4];
+                break;                   
+            
         }
 
         //charge if not the principal private residence
-        if (!principalPrivateResidence)
-        {
-            taxDue += 100;
+        if(!principalPrivateResidence){
+            taxDue+=100;
         }
-
-        //overdue penalty
-        int yearsOverdue = this.getOverdueRecords().size();
-        taxDue = taxDue * Math.pow(1 + unpaidPenalty, yearsOverdue);
-        PaymentRecord a = new PaymentRecord(currentYear, false, taxDue);
-        addToPaymentFile(a);
-
+        
         return taxDue;
     }
 
+    /**
+     *  Calculates and returns the tax due on this property based on the fixed rate,
+     * market value, location, whether or not it is the principal private residence
+     * of the owner, and how many previous years are unpaid plus the penalty for 
+     * a year remaining unpaid.
+     * @return The tax due on this property.
+     */
+    public double taxDue(){    
+        //overdue penalty
+        double taxBeforePenalty=taxDueThisYear();
+        double taxDue=taxBeforePenalty;
+        ArrayList<PaymentRecord> yearsOverdue = this.getOverdueRecords();
+        for(int i = 0; i<yearsOverdue.size(); i++){
+            int pow = currentYear-yearsOverdue.get(i).getYear();//pow is the no. of years for which a penalty applies
+            taxDue+=taxBeforePenalty*Math.pow(1+unpaidPenalty, pow);
+        }        
+        
+        return taxDue;
+    }
+    
+    //Back to Chetachi
     public void deleteProperty()
     {
         String[] files =
@@ -445,12 +485,18 @@ public class Property
 
     }
 
+    //Back to Sam
+    
+    /**
+     * Returns an ArrayList containing each unpaid record for this property.
+     * @return an ArrayList containing each unpaid record for this property.
+     */
     public ArrayList<PaymentRecord> getOverdueRecords()
     {
         ArrayList<PaymentRecord> overdueRecords = new ArrayList<>();
         for (PaymentRecord r : getPaymentRecords())
         {
-            if (!r.isWasPaid())
+            if (!r.getWasPaid())
             {
                 overdueRecords.add(r);
             }
@@ -460,17 +506,29 @@ public class Property
 
     }
 
+    //Written by Sam and Chetachi
+    
+    /**
+     * Sets the wasPaid attribute of the unpaid PaymentRecords to true, sets the amount paid
+     * and changes the csv file to represent this
+     */
     public void payTax()
     {
         ArrayList<PaymentRecord> overdueRecords = getOverdueRecords();
+        
         for (int i = 0; i < overdueRecords.size(); i++)
         {
+            if(overdueRecords.get(i).getYear()==currentYear){
+                overdueRecords.get(i).setAmount(this.taxDue());
+            }
             overdueRecords.get(i).replaceLine(address.toUpperCase() + " Payment Records.csv", "yes", 2);
+            overdueRecords.get(i).setWasPaid(true);
             overdueRecords.remove(i);
         }
 
     }
 
+    //Written by Chetachi
     @Override
     public String toString()
     {
