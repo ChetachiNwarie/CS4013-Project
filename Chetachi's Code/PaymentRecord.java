@@ -55,25 +55,24 @@ public class PaymentRecord
     
     
    // Chetachi's code from here
-    public void replaceLine(String filename, String change, int column)
+     public void replaceLine(String filename, String change, int column)
     {
         try
         {
             BufferedReader file = new BufferedReader(new FileReader(filename));
             StringBuffer inputBuffer = new StringBuffer();
             String line;
-
+            String find = toString();
             while ((line = file.readLine()) != null)
             {
-                if (line.equals(toString()))
+                if (line.equals(find))
                 {
                     String[] split = line.split(",");
                     split[column] = change;
 
                     String a = Arrays.toString(split);
-                    System.out.println(a);
                     String[] split2 = a.split("(\\[)|(\\])");
-                    line = split2[1];
+                    line = split2[1].replaceAll("\\s","");
                 }
 
                 inputBuffer.append(line);
@@ -103,7 +102,7 @@ public class PaymentRecord
         {
             p = "no";
         }
-        String b = String.format("%d,%.2f,%s", getYear(), getAmount(), p);
+        String b = String.format("%d,%.0f,%s", getYear(), getAmount(), p);
         return b;
     }
 }
