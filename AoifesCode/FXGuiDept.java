@@ -44,10 +44,15 @@ public class FXGuiDept extends Application{
     
     private Label ownerDataL = new Label();
     
+    private Label useEircodeL = new Label("Do you want to use an eircode routing key?");
+    private RadioButton yesKeyRb = new RadioButton("Yes");
+    private RadioButton noKeyRb = new RadioButton("No");
+    
     private Label enterYearL = new Label("Enter year:");
     private TextField yearTf = new TextField();
     private Label enterEircodeRoutingKeyL = new Label("Enter eircode routing key:");
     private TextField eircodeRoutingKeyTf = new TextField();
+    private Label getOverdueTaxL = new Label();
     
     private Label enterRoutingKeyL = new Label("Enter routing key");
     private TextField routingKeyTf = new TextField();
@@ -147,7 +152,7 @@ public class FXGuiDept extends Application{
         grid.add(enter, 1, 1);
         grid.add(exit, 0, 1);
         
-        enter.setOnAction(e -> finishOwnerData());
+        enter.setOnAction(e -> getOwnerData());
         
         newStage.setTitle("Owner Data");
         newStage.setScene(scene);
@@ -155,7 +160,7 @@ public class FXGuiDept extends Application{
     }
     
     // works
-    public void finishOwnerData(){
+    public void getOwnerData(){
         newStage.close();
         grid.getChildren().clear();
         pm.getPropertyByOwner(ownerTf.getText()); //only used to get around array error. reads owner csv file and returns array of properties
@@ -183,28 +188,116 @@ public class FXGuiDept extends Application{
         newStage.close();
         grid.getChildren().clear();
         
-        grid.add(enterYearL, 0, 0);
-        grid.add(yearTf, 1, 0);
-        grid.add(enterEircodeRoutingKeyL, 0, 1);
-        grid.add(eircodeRoutingKeyTf, 1, 1);
-        grid.add(enter, 1, 2);
-        grid.add(exit, 0, 2);
-        
-        enter.setOnAction(e -> finishOverdueData());
-        
+        grid.add(useEircodeL, 0, 0);
+        grid.add(yesKeyRb, 0, 1);
+        grid.add(noKeyRb, 0, 2);
+
+        yesKeyRb.setOnAction(e -> setDetailsOverdueDataWithKey());
+        noKeyRb.setOnAction(e -> setDetailsOverdueDataWithoutKey());
+
         newStage.setTitle("Overdue Data");
         newStage.setScene(scene);
         newStage.show();        
     }
     
-    // need to fix still
-    public void finishOverdueData(){
+    // works
+    public void setDetailsOverdueDataWithKey() {
         newStage.close();
         grid.getChildren().clear();
-        
-        dmm.getOverdueTax(Integer.parseInt(yearTf.getText()), eircodeRoutingKeyTf.getText());
-        
-        newStage.setTitle("Overdue Data");
+
+        grid.add(enterYearL, 0, 1);
+        grid.add(yearTf, 1, 1);
+        grid.add(enterEircodeRoutingKeyL, 0, 2);
+        grid.add(eircodeRoutingKeyTf, 1, 2);
+        grid.add(enter, 1, 3);
+        grid.add(exit, 0, 3);
+
+        enter.setOnAction(e -> getOverdueDataWithKey());
+
+        newStage.setTitle("Owner Data");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+    
+    // doesnt work still need to fix
+    public void getOverdueDataWithKey() {
+        newStage.close();
+        grid.getChildren().clear();
+
+        // copied some loops form DepartmentManagementMenu. couldnt use methods because of println
+        String routekey = eircodeRoutingKeyTf.getText();
+        int year = Integer.parseInt(yearTf.getText());
+        ArrayList<Property> allProps = pm.getRegisteredProperties();
+        ArrayList<Property> areaProps = new ArrayList<Property>();
+        for(int i = 0; i<allProps.size(); i++){
+            if(routekey.equals(allProps.get(i).getEircode().toUpperCase().substring(0, 3))){
+                areaProps.add(allProps.get(i));
+            }
+        }
+        String overdue = "";
+
+        for(int i=0; i<areaProps.size(); i++){
+            System.out.println(areaProps.get(i).getRecord(year).isWasPaid());
+            if(!areaProps.get(i).getRecord(year).isWasPaid()){ //error here
+                //System.out.println(areaProps.get(i).getOverdueRecords().toString());
+                overdue+=areaProps.get(i).toString();
+            } 
+        }
+
+
+        getOverdueTaxL.setText(overdue);
+
+        grid.add(getOverdueTaxL, 0, 0);
+        grid.add(backToMenuBt, 0, 1);
+        grid.add(exit, 0, 2);
+
+        backToMenuBt.setOnAction(e -> deptOptions());
+
+        newStage.setTitle("Overdue Tax Data");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+    
+    // not working yet
+    public void setDetailsOverdueDataWithoutKey() {
+        newStage.close();
+        grid.getChildren().clear();
+
+        grid.add(enterYearL, 0, 0);
+        grid.add(yearTf, 1, 0);
+        grid.add(enter, 1, 2);
+        grid.add(exit, 0, 2);
+
+        enter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                newStage.close();
+                grid.getChildren().clear();
+
+                int year = Integer.parseInt(yearTf.getText());
+                String overdue = "";
+                dmm.allProperties = pm.getRegisteredProperties();
+                //ArrayList<Property> areaProperties = new ArrayList<Property>();
+                for (int i = 0; i < dmm.allProperties.size(); i++) {
+                    if (!dmm.allProperties.get(i).getRecord(year).getWasPaid()) { //error here
+                        overdue += dmm.allProperties.get(i).toString() + "\n";
+                    }
+                }
+                getOverdueTaxL.setText(overdue);
+                grid.add(getOverdueTaxL, 0, 0);
+                grid.add(backToMenuBt, 0, 1);
+                grid.add(exit, 0, 2);
+
+                backToMenuBt.setOnAction(e -> deptOptions());
+
+                newStage.setTitle("Overdue Tax Data");
+                newStage.setScene(scene);
+                newStage.show();
+
+            }
+        });
+
+        newStage.setTitle("Owner Data");
         newStage.setScene(scene);
         newStage.show();
     }
@@ -226,14 +319,26 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    // need to fix still
+    // works but could neaten layout
     public void finishAreaStats(){
         newStage.close();
         grid.getChildren().clear();
         
-        ArrayList<Property> props = new ArrayList<Property>();
-        props = dmm.sortByEircode(routingKeyTf.getText().toUpperCase());       
-        areaStatsTa.setText(props.toString());
+        String routekey = routingKeyTf.getText();
+        ArrayList<Property> allProps = pm.getRegisteredProperties();
+        ArrayList<Property> areaProps = new ArrayList<Property>();
+        for(int i = 0; i<allProps.size(); i++){
+            if(routekey.equals(allProps.get(i).getEircode().toUpperCase().substring(0, 3))){
+                areaProps.add(allProps.get(i));
+            }
+        }
+        String s = "";
+        for(int i=0; i<areaProps.size(); i++){
+            s = s + areaProps.get(i).toString() + "\n";
+        }
+        
+        areaStatsTa.setText(s);
+        areaStatsTa.setEditable(false);
         
         grid.add(areaStatsTa, 0, 0);
         grid.add(backToMenuBt, 0, 1);
