@@ -106,7 +106,7 @@ public class OwnerGui extends Application {
         deptRb.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
-                FXGuiDept dept = new FXGuiDept();
+                DepartmentGui dept = new DepartmentGui();
                 Stage newStage = new Stage();
                 dept.start(newStage);
                 newStage.show();
