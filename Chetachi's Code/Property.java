@@ -58,7 +58,7 @@ public class Property
 
     }
 
-    private void initializingFiles()
+     private void initializingFiles()
     {
         try
         {
@@ -71,17 +71,20 @@ public class Property
                 csvWriter.close();
             }
 
-            File e = new File(this.address.toUpperCase() + " Payment Records.csv");
+            File pr = new File("Payment Records");
+            pr.mkdir();
+            File e = new File(pr, this.address.toUpperCase() + " Payment Records.csv");
             if (!e.exists())
             {
-
                 FileWriter csvWriter1 = new FileWriter(e, false);
                 csvWriter1.append("Year,Tax,Paid\n");
                 csvWriter1.flush();
                 csvWriter1.close();
             }
 
-            File f = new File(this.owner.toUpperCase() + ".csv");
+            File o = new File("Owners");
+            o.mkdir();
+            File f = new File(o, this.owner.toUpperCase() + ".csv");
             if (!f.exists())
             {
                 FileWriter csvWriter2 = new FileWriter(f, true);
@@ -90,7 +93,7 @@ public class Property
                 csvWriter2.flush();
                 csvWriter2.close();
             }
-            else if (!fileContainsLine(f.getName(), this.toString()))
+            else if (!fileContainsLine("Owners\\" + f.getName(), this.toString()))
             {
 
                 FileWriter csvWriter2 = new FileWriter(f, true);
@@ -105,13 +108,12 @@ public class Property
             Logger.getLogger(Property.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public ArrayList<PaymentRecord> getPaymentRecords()
+   public ArrayList<PaymentRecord> getPaymentRecords()
     {
         ArrayList<PaymentRecord> records = new ArrayList<>();
         try
         {
-            BufferedReader file = new BufferedReader(new FileReader(address.toUpperCase() + " Payment Records.csv"));
+            BufferedReader file = new BufferedReader(new FileReader("Payment Records\\" + address.toUpperCase() + " Payment Records.csv"));
             String line;
             int i = 0;
 
@@ -143,11 +145,11 @@ public class Property
     }
 
     //Done
-    public void setPaymentRecords(ArrayList<PaymentRecord> paymentRecords)
+     public void setPaymentRecords(ArrayList<PaymentRecord> paymentRecords)
     {
         try
         {
-            BufferedReader file = new BufferedReader(new FileReader(address.toUpperCase() + " Payment Records.csv"));
+            BufferedReader file = new BufferedReader(new FileReader("Payment Records\\" + address.toUpperCase() + " Payment Records.csv"));
             StringBuffer inputBuffer = new StringBuffer();
             String line;
             int i = 0;
@@ -165,7 +167,7 @@ public class Property
             }
 
             file.close();
-            FileOutputStream fileOut = new FileOutputStream(address.toUpperCase() + " Payment Records.csv", false);
+            FileOutputStream fileOut = new FileOutputStream("Payment Records\\" + address.toUpperCase() + " Payment Records.csv", false);
             fileOut.write(inputBuffer.toString().getBytes());
             fileOut.close();
 
@@ -177,7 +179,6 @@ public class Property
 
         this.paymentRecords = paymentRecords;
     }
-
     public double getFixedCost()
     {
         return fixedCost;
@@ -298,9 +299,8 @@ public class Property
     {
         String[] files =
         {
-            "Properties.csv", this.owner.toUpperCase() + ".csv"
+            "Properties.csv", "Owners\\" + this.owner.toUpperCase() + ".csv"
         };
-        //  String filename = "Properties.csv";
 
         for (String f : files)
         {
@@ -331,12 +331,11 @@ public class Property
             }
         }
 
-        File a = new File(this.address.toUpperCase() + " Payment Records.csv");
+        File a = new File("Payment Records\\" + this.address.toUpperCase() + " Payment Records.csv");
         a.delete();
         paymentRecords.clear();
 
     }
-
     private void removePropertyFrom(String filename)
     {
         //  String filename = "Properties.csv";
@@ -375,10 +374,10 @@ public class Property
     }
 
     //Done
-    public void removeFromPaymentFile(PaymentRecord a)
+     public void removeFromPaymentFile(PaymentRecord a)
     {
         paymentRecords.remove(a);
-        String filename = address.toUpperCase() + " Payment Records.csv";
+        String filename = "Payment Records\\" + address.toUpperCase() + " Payment Records.csv";
         try
         {
             BufferedReader file = new BufferedReader(new FileReader(filename));
@@ -387,7 +386,7 @@ public class Property
 
             while ((line = file.readLine()) != null)
             {
-                if (!line.equals(a.toString()))
+                if (!line.contains(Integer.toString(a.getYear())))
                 {
                     inputBuffer.append(line);
                     inputBuffer.append('\n');
@@ -408,10 +407,10 @@ public class Property
     }
 
     //Done
-    public void addToPaymentFile(PaymentRecord a)
+     public void addToPaymentFile(PaymentRecord a)
     {
 
-        for (PaymentRecord p : paymentRecords)
+        for (PaymentRecord p : getPaymentRecords())
         {
             if (p.getYear() == a.getYear())
             {
@@ -423,7 +422,7 @@ public class Property
         paymentRecords.add(a);
         try
         {
-            FileWriter csvWriter1 = new FileWriter(this.address.toUpperCase() + " Payment Records.csv", true);
+            FileWriter csvWriter1 = new FileWriter("Payment Records\\" + this.address.toUpperCase() + " Payment Records.csv", true);
             csvWriter1.append(a.toString() + "\n");
             csvWriter1.flush();
             csvWriter1.close();
@@ -456,11 +455,11 @@ public class Property
     public void payTax()
     {
         ArrayList<PaymentRecord> overdueRecords = getOverdueRecords();
-        for (int i = 0; i < overdueRecords.size(); i++)
+        for (PaymentRecord r : overdueRecords)
         {
-            overdueRecords.get(i).replaceLine(address.toUpperCase() + " Payment Records.csv", "yes", 2);
-            overdueRecords.remove(i);
+            r.replaceLine("Payment Records\\" + address.toUpperCase() + " Payment Records.csv", "yes", 2);
         }
+        overdueRecords.clear();
 
     }
 
@@ -484,11 +483,11 @@ public class Property
         return a;
     }
 
-    public void replaceLine(String change, int column)
+     public void replaceLine(String change, int column)
     {
         String[] files =
         {
-            "Properties.csv", this.owner.toUpperCase() + " Payment Records.csv"
+            "Properties.csv", "Owners\\" + this.owner.toUpperCase() + " Payment Records.csv"
         };
         for (String filename : files)
         {
@@ -526,7 +525,6 @@ public class Property
             }
         }
     }
-
     public String getEircode()
     {
         return eircode;
@@ -544,12 +542,12 @@ public class Property
         return owner;
     }
 
-    public void setOwner(String owner)
+     public void setOwner(String owner)
     {
         try
         {
-            File f = new File(this.owner.toUpperCase() + ".csv");
-            File g = new File(owner.toUpperCase() + ".csv");
+            File f = new File("Owners\\" + this.owner.toUpperCase() + ".csv");
+            File g = new File("Owners\\" + owner.toUpperCase() + ".csv");
             boolean a = f.exists();
             boolean b = g.exists();
 
@@ -594,12 +592,12 @@ public class Property
         return address;
     }
 
-    public void setAddress(String address)
+   public void setAddress(String address)
     {
         try
         {
-            File f = new File(this.address.toUpperCase() + " Payment Records.csv");
-            File g = new File(address.toUpperCase() + " Payment Records.csv");
+            File f = new File("Payment Records\\" + this.address.toUpperCase() + " Payment Records.csv");
+            File g = new File("Payment Records\\" + address.toUpperCase() + " Payment Records.csv");
 
             if (!f.exists())
             {
