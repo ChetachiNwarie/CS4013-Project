@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.TextArea;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.RadioButton;
 
 /**
  *
@@ -20,6 +23,8 @@ public class DepartmentGui extends Application{
     
     private DepartmentManagementMenu dmm = new DepartmentManagementMenu();
     private PropertyManagement pm = new PropertyManagement();
+    
+    private ArrayList<Property> allProps = pm.getRegisteredProperties();
     
     private Label welcomeL = new Label("Welcome to the Department of Environment Managament System");
     private Button continueBt = new Button("Continue");
@@ -724,28 +729,7 @@ public class DepartmentGui extends Application{
         newStage.close();
         grid.getChildren().clear();
         
-        String stats = "";
-        double totalVal = 0;
-        int numRecords=0;
-        int numPaidRecords=0;
-              
-        // copied loop to check for error
-        for(int i = 0; i<allProps.size(); i++){
-            totalVal+=allProps.get(i).getMarketValue();
-            ArrayList<PaymentRecord> payRecords = allProps.get(i).getPaymentRecords();
-            //System.out.println(payRecords.toString());
-            numRecords += payRecords.size();
-            for(int j =0; j < payRecords.size(); j++){
-                if(payRecords.get(i).getWasPaid()){ //loop not working
-                    numPaidRecords++;
-                }
-            }
-        }
-        
-        String s = String.format("Total tax paid : %.2f\nAverage tax paid: %.2f\nNumber of property taxes paid : %d\nPercentage of taxes paid : %.2f\n",
-            totalVal, (totalVal/allProps.size()), numRecords, (numPaidRecords/numRecords));
-        
-        statsL.setText(s);
+        statsL.setText(dmm.statistics(allProps));
         
         grid.add(statsL, 0, 0);
         grid.add(backToMenuBt, 0, 1);
