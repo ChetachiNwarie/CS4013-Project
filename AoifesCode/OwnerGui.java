@@ -11,12 +11,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.RadioButton;
+import java.time.LocalDateTime;
 
 /**
  *
- * @author Aoife Gleeson 19242395
+ * @author Aoife Gleeson (19242395)
  */
-public class FXGuiOwner extends Application {
+public class OwnerGui extends Application {
     private GridPane grid = new GridPane();
     private Scene scene = new Scene(grid, 500, 500);
     private Stage newStage = new Stage();
@@ -83,7 +84,13 @@ public class FXGuiOwner extends Application {
     private TextArea viewPaymentsTa = new TextArea();
     
     private TextArea viewPropertiesTa = new TextArea();
-        
+       
+     /**
+     * A method which creates the first window that gives an option to the user
+     * to select owner or Department of Environment
+     *
+     * @param primaryStage the first stage
+     */
     @Override
     public void start(Stage primaryStage) {
         grid.setAlignment(Pos.CENTER);
@@ -115,7 +122,10 @@ public class FXGuiOwner extends Application {
         
     }
 
-    //works
+    /**
+     * A method which allows the user to enter the data needed to make a
+     * PropertyOwner object
+     */
     public void name() {
         grid.getChildren().clear();
         
@@ -131,7 +141,10 @@ public class FXGuiOwner extends Application {
         newStage.show();
     }
 
-    // works
+    /**
+     * A method that if the owner is already registered it assigns it to an
+     * instance variable, else it registers a new owner
+     */
     public void ownerOptions() {
         newStage.close();
         grid.getChildren().clear();
@@ -153,19 +166,22 @@ public class FXGuiOwner extends Application {
         grid.add(payTaxDueRb, 0, 2);
         grid.add(viewPropRb, 0, 3);
         grid.add(statementRb, 0, 4);
-        grid.add(exit, 0, 5);
+        grid.add(exit, 1, 5);
 
         registerRb.setOnAction(e -> registerProp());
         payTaxRb.setOnAction(e -> payTax());
         viewPropRb.setOnAction(e -> viewProperties());
-        statementRb.setOnAction(e -> viewPayments());
+        statementRb.setOnAction(e -> setViewPayments());
 
         newStage.setTitle("Owner Details");
         newStage.setScene(scene);
         newStage.show();
     }
 
-    // works
+    /**
+     * A method which allows the user to enter details needed to register a new
+     * property
+     */
     public void registerProp() {
         newStage.close();
         grid.getChildren().clear();
@@ -196,7 +212,10 @@ public class FXGuiOwner extends Application {
         newStage.show();
     }
     
-    // works for csv file not array
+    /**
+     * A method that registers a new property for the owner unless it is already
+     * registered
+     */
     public void confirmRegisterProp() {
         newStage.close();
         grid.getChildren().clear();
@@ -226,7 +245,7 @@ public class FXGuiOwner extends Application {
             principalPrivateResidence = false;
         }
         
-        owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence); //not adding to array list
+        owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence);
         pm.registerProperty(new Property(name, address, eircode, marketValue, location, principalPrivateResidence));
         
         grid.add(thanksRegisterL, 0, 0);
@@ -240,50 +259,82 @@ public class FXGuiOwner extends Application {
         newStage.show();
     }
 
-    // need to fix paid
+    /**
+     * A method which allows the user to enter their property address to compare
+     * to one registered to them in order to pay tax due
+     */
     public void payTax() {
         newStage.close();
         grid.getChildren().clear();
 
         grid.add(enterTaxAddressL, 0, 0);
         grid.add(taxAddressTf, 1, 0);
-        grid.add(taxDueL, 0, 1);
-        grid.add(showTaxDueL, 1, 1);
-        grid.add(payTaxBt, 1, 2);
-        grid.add(taxDueBt, 0, 2);
-        grid.add(thanksTaxL, 0, 3);
-        grid.add(backToMenuBt, 0, 4);
+        grid.add(taxDueBt, 1, 1);
+        grid.add(exit, 0, 1);
 
         taxDueBt.setOnAction(e -> calculateTax());
-        payTaxBt.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                a.payTax();
-                owner.payTax(a);
-                a.getRecord(LocalDateTime.now().getYear()).setWasPaid(true);
-                thanksTaxL.setText("Thank you for paying");
-                backToMenuBt.setOnAction(e -> ownerOptions());
-            }
-        });
 
         newStage.setTitle("Pay Tax");
         newStage.setScene(scene);
         newStage.show();
     }
     
+    /**
+     * A method that Uses the taxDue() method to find the tax due this year for
+     * the property the owner entered
+     */
     public void calculateTax() {
+        newStage.close();
+        grid.getChildren().clear();
+        
         double tax = 0.0;
         for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
             if (pm.getRegisteredProperties().get(i).getAddress().equals(taxAddressTf.getText())) {
                 a = pm.getRegisteredProperties().get(i);
                 tax = pm.getRegisteredProperties().get(i).taxDue();
-//                pm.getRegisteredProperties().get(i).getRecord(LocalDateTime.now().getYear()).setWasPaid(true);
             }
         }
         showTaxDueL.setText(Double.toString(tax));
+        
+        grid.add(taxDueL, 0, 0);
+        grid.add(showTaxDueL, 1, 0);
+        grid.add(exit, 0, 1);
+        grid.add(payTaxBt, 1, 1);
+        
+        payTaxBt.setOnAction(e -> payTaxDue());
+        
+        newStage.setTitle("Pay Tax");
+        newStage.setScene(scene);
+        newStage.show();
     }
     
-    // works but could neaten layout
+    /**
+     * A method which uses the payTax() method to pay the tax for the property specified
+     */
+    public void payTaxDue() {
+        newStage.close();
+        grid.getChildren().clear();
+
+        a.payTax();
+        owner.payTax(a);
+        a.getRecord(LocalDateTime.now().getYear()).setWasPaid(true);
+        thanksTaxL.setText("Thank you for paying");
+        
+        grid.add(thanksTaxL, 0, 0);
+        grid.add(backToMenuBt, 0, 1);
+        grid.add(exit, 0, 2);
+        
+        backToMenuBt.setOnAction(e -> ownerOptions());
+        
+        newStage.setTitle("Pay Tax");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+    
+    /**
+     * A method that displays a list of the owners registered properties in a
+     * text area
+     */
     public void viewProperties() {
         newStage.close();
         grid.getChildren().clear();
@@ -291,15 +342,18 @@ public class FXGuiOwner extends Application {
         String s = "";
         for(int i=0; i<pm.getRegisteredProperties().size(); i++){
             if(pm.getRegisteredProperties().get(i).getOwner().equals(name)){
-                s = s + pm.getRegisteredProperties().get(i).toString() + "\n";
+                s = s + pm.getRegisteredProperties().get(i).getAddress() + " " +
+                        pm.getRegisteredProperties().get(i).getEircode() + "\n";
             }
         }
-        viewPropertiesTa.setText(s);
+        viewPropertiesTa.setText("Address Eircode\n" + s);
         viewPropertiesTa.setEditable(false);
         
         grid.add(viewPropertiesTa, 0, 0);
         grid.add(backToMenuBt, 0, 1);
         grid.add(exit, 0, 2);
+        
+        backToMenuBt.setOnAction(e -> ownerOptions());
 
         newStage.setTitle("View Properties");
         newStage.setScene(scene);
@@ -307,8 +361,11 @@ public class FXGuiOwner extends Application {
 
     }
 
-    // works
-    public void viewPayments() {
+    /**
+     * A method which allows the user to enter the year for which they want to
+     * view payment records
+     */
+    public void setViewPayments() {
         newStage.close();
         grid.getChildren().clear();
         
@@ -317,25 +374,27 @@ public class FXGuiOwner extends Application {
         grid.add(enter, 1, 1);
         grid.add(exit, 0, 1);
         
-        enter.setOnAction(e -> finishViewPayments());
+        enter.setOnAction(e -> getViewPayments());
 
         newStage.setTitle("Payment Records");
         newStage.setScene(scene);
         newStage.show();
     }
     
-    // says not paid when paid
-    public void finishViewPayments(){
+    /**
+     * A method that displays payment records for the year specified in
+     * setViewPayments()
+     */
+    public void getViewPayments(){
         newStage.close();
         grid.getChildren().clear();
         
         String s = "";
         for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
             if(pm.getRegisteredProperties().get(i).getOwner().equals(name)){
-                s = s + pm.getRegisteredProperties().get(i).getAddress() + "\n"     //saying not paid when paid
+                s = s + pm.getRegisteredProperties().get(i).getAddress() + "\n"     
                     + pm.getRegisteredProperties().get(i).getRecord(Integer.parseInt(yearTf.getText()));
-            }
-            
+            }          
         }
         
         viewPaymentsTa.setEditable(false);
@@ -354,6 +413,11 @@ public class FXGuiOwner extends Application {
 }
 
 class ExitHandlerClass implements EventHandler<ActionEvent> {
+    /**
+     * Exits the program
+     *
+     * @param e
+     */
     @Override
     public void handle(ActionEvent e) {
         System.exit(0);
