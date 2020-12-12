@@ -114,7 +114,7 @@ public class FXGuiOwner extends Application {
         
     }
 
-    //start of windows for owner
+    //works
     public void name() {
         grid.getChildren().clear();
         
@@ -130,6 +130,7 @@ public class FXGuiOwner extends Application {
         newStage.show();
     }
 
+    // works
     public void ownerOptions() {
         newStage.close();
         grid.getChildren().clear();
@@ -163,6 +164,7 @@ public class FXGuiOwner extends Application {
         newStage.show();
     }
 
+    // works
     public void registerProp() {
         newStage.close();
         grid.getChildren().clear();
@@ -193,6 +195,7 @@ public class FXGuiOwner extends Application {
         newStage.show();
     }
     
+    // works for csv file not array
     public void confirmRegisterProp() {
         newStage.close();
         grid.getChildren().clear();
@@ -236,6 +239,7 @@ public class FXGuiOwner extends Application {
         newStage.show();
     }
 
+    // need to fix paid
     public void payTax() {
         newStage.close();
         grid.getChildren().clear();
@@ -274,12 +278,13 @@ public class FXGuiOwner extends Application {
         double tax = 0.0;
         for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
             if (pm.getRegisteredProperties().get(i).getAddress().equals(taxAddressTf.getText())) {
-                tax = pm.getRegisteredProperties().get(i).taxDue();
+                tax = pm.getRegisteredProperties().get(i).taxDue(); // only used to get around array error
             }
         }
         showTaxDueL.setText(Double.toString(tax));
     }
     
+    // works but could neaten layout
     public void viewProperties() {
         newStage.close();
         grid.getChildren().clear();
@@ -303,6 +308,7 @@ public class FXGuiOwner extends Application {
 
     }
 
+    // works
     public void viewPayments() {
         newStage.close();
         grid.getChildren().clear();
@@ -319,6 +325,7 @@ public class FXGuiOwner extends Application {
         newStage.show();
     }
     
+    // need to fix still
     public void finishViewPayments(){
         newStage.close();
         grid.getChildren().clear();
