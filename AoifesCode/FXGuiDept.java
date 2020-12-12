@@ -59,6 +59,60 @@ public class FXGuiDept extends Application{
     
     private TextArea areaStatsTa = new TextArea();
 
+    private Label investigateChoicesL = new Label("Do you want to");
+    private RadioButton fixedCostRb = new RadioButton("Change the fixed cost");
+    private RadioButton bracketValuesRb = new RadioButton("Change the brackets of the values for market value tax");
+    private RadioButton bracketRatesRb = new RadioButton("Change the rates for market value tax");
+    private RadioButton locationRb = new RadioButton("Change the rates for location category");
+    private RadioButton pprRb = new RadioButton("Change the charge for the property "
+            + "not being the \nprincipal private residence of the owner");
+    private RadioButton penaltyRb = new RadioButton("Change the penalty for previous unpaid years");
+    private RadioButton getStatsRb = new RadioButton("Get statistics");
+
+    private Label newFixedCostL = new Label("Enter the new fixed cost");
+    private TextField newFixedCostTf = new TextField();
+    private Label thanksFixedCostL = new Label("Thank you for changing the fixed cost");
+
+    private Label newFirstBracketValueL = new Label("Enter the first value");
+    private TextField newFirstBracketValueTf = new TextField();
+    private Label newSecondBracketValueL = new Label("Enter the second value");
+    private TextField newSecondBracketValueTf = new TextField();
+    private Label newThirdBracketValueL = new Label("Enter the third value");
+    private TextField newThirdBracketValueTf = new TextField();
+    private Label thanksValueBracketsL = new Label("Thank you for changing the bracket values");
+    
+    private Label newFirstBracketRateL = new Label("Enter the first value");
+    private TextField newFirstBracketRateTf = new TextField();
+    private Label newSecondBracketRateL = new Label("Enter the second value");
+    private TextField newSecondBracketRateTf = new TextField();
+    private Label newThirdBracketRateL = new Label("Enter the third value");
+    private TextField newThirdBracketRateTf = new TextField();
+    private Label newFourthBracketRateL = new Label("Enter the fourth value");
+    private TextField newFourthBracketRateTf = new TextField();
+    private Label thanksBracketRatesL = new Label("Thank you for changing the rates for market value tax");
+    
+    private Label newFirstLocationRateL = new Label("Enter the first value");
+    private TextField newFirstLocationRateTf = new TextField();
+    private Label newSecondLocationRateL = new Label("Enter the second value");
+    private TextField newSecondLocationRateTf = new TextField();
+    private Label newThirdLocationRateL = new Label("Enter the third value");
+    private TextField newThirdLocationRateTf = new TextField();
+    private Label newFourthLocationRateL = new Label("Enter the fourth value");
+    private TextField newFourthLocationRateTf = new TextField();
+    private Label newFifthLocationRateL = new Label("Enter the fifth value");
+    private TextField newFifthLocationRateTf = new TextField();
+    private Label thanksLocationRatesL = new Label("Thank you for changing the rates for location");
+    
+    private Label newPprL = new Label("Enter the new value");
+    private TextField newPprTf = new TextField();
+    private Label thanksPprL = new Label("Thank you for changing the charge");
+    
+    private Label newPenaltyL = new Label("Enter the new value");
+    private TextField newPenaltyTf = new TextField();
+    private Label thanksPenaltyL = new Label("Thank you for changing the penalty");
+    
+    private Label statsL = new Label();
+    
     @Override
     public void start(Stage primaryStage){
         grid.setAlignment(Pos.CENTER);
@@ -350,7 +404,313 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
-    public void investigateChanges(){
-        //need to finish
+    // works
+    public void investigateChanges() {
+        newStage.close();
+        grid.getChildren().clear();
+
+        grid.add(investigateChoicesL, 0, 0);
+        grid.add(fixedCostRb, 0, 1);
+        grid.add(bracketValuesRb, 0, 2);
+        grid.add(bracketRatesRb, 0, 3);
+        grid.add(locationRb, 0, 4);
+        grid.add(pprRb, 0, 5);
+        grid.add(penaltyRb, 0, 6);
+        grid.add(getStatsRb, 0, 7);
+        grid.add(exit, 0, 8);
+
+        fixedCostRb.setOnAction(e -> changeFixedCost());
+        bracketValuesRb.setOnAction(e -> changeBracketValues());
+        bracketRatesRb.setOnAction(e -> changeBracketRates());
+        locationRb.setOnAction(e -> changeLocationRates());
+        pprRb.setOnAction(e -> changePpr());
+        penaltyRb.setOnAction(e -> changePenalty());
+        getStatsRb.setOnAction(e -> getStatistics());
+
+        newStage.setTitle("Investigate Changes");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+
+    // works
+    public void changeFixedCost() {
+        newStage.close();
+        grid.getChildren().clear();
+
+        grid.add(newFixedCostL, 0, 0);
+        grid.add(newFixedCostTf, 1, 0);
+        grid.add(exit, 0, 1);
+        grid.add(enter, 1, 1);
+
+        enter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                newStage.close();
+                grid.getChildren().clear();
+
+                Property.setFixedCost(Double.parseDouble(newFixedCostTf.getText()));
+
+                grid.add(thanksFixedCostL, 0, 0);
+                grid.add(backToMenuBt, 0, 1);
+                grid.add(exit, 0, 2);
+
+                backToMenuBt.setOnAction(e -> deptOptions());
+
+                newStage.setTitle("Investigate Changes");
+                newStage.setScene(scene);
+                newStage.show();
+            }
+        });
+
+        newStage.setTitle("Investigate Changes");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+
+    // works
+    public void changeBracketValues() {
+        newStage.close();
+        grid.getChildren().clear();
+
+        grid.add(newFirstBracketValueL, 0, 0);
+        grid.add(newFirstBracketValueTf, 1, 0);
+        grid.add(newSecondBracketValueL, 0, 1);
+        grid.add(newSecondBracketValueTf, 1, 1);
+        grid.add(newThirdBracketValueL, 0, 2);
+        grid.add(newThirdBracketValueTf, 1, 2);
+        grid.add(exit, 0, 3);
+        grid.add(enter, 1, 3);
+
+        enter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                newStage.close();
+                grid.getChildren().clear();
+                
+                double first = Double.parseDouble(newFirstBracketValueTf.getText());
+                double second = Double.parseDouble(newSecondBracketValueTf.getText());
+                double third = Double.parseDouble(newThirdBracketValueTf.getText());
+                double[] newBrackets = {0, first, second, third};
+                Property.setValueBrackets(newBrackets);
+                
+                grid.add(thanksValueBracketsL, 0, 0);
+                grid.add(backToMenuBt, 0, 1);
+                grid.add(exit, 0, 2);
+                
+                backToMenuBt.setOnAction(e -> deptOptions());
+
+                newStage.setTitle("Investigate Changes");
+                newStage.setScene(scene);
+                newStage.show();
+            }
+        });
+
+        newStage.setTitle("Investigate Changes");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+    
+    // works
+    public void changeBracketRates(){
+        newStage.close();
+        grid.getChildren().clear();
+        
+        grid.add(newFirstBracketRateL, 0, 0);
+        grid.add(newFirstBracketRateTf, 1, 0);
+        grid.add(newSecondBracketRateL, 0, 1);
+        grid.add(newSecondBracketRateTf, 1, 1);
+        grid.add(newThirdBracketRateL, 0, 2);
+        grid.add(newThirdBracketRateTf, 1, 2);
+        grid.add(newFourthBracketRateL, 0, 3);
+        grid.add(newFourthBracketRateTf, 1, 3);
+        grid.add(exit, 0, 4);
+        grid.add(enter, 1, 4);
+        
+        enter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                newStage.close();
+                grid.getChildren().clear();
+                
+                double first = Double.parseDouble(newFirstBracketRateTf.getText());
+                double second = Double.parseDouble(newSecondBracketRateTf.getText());
+                double third = Double.parseDouble(newThirdBracketRateTf.getText());
+                double fourth = Double.parseDouble(newFourthBracketRateTf.getText());
+                double[] newRates = {first, second, third, fourth};
+                Property.setValueBrackets(newRates);
+                
+                grid.add(thanksBracketRatesL, 0, 0);
+                grid.add(backToMenuBt, 0, 1);
+                grid.add(exit, 0, 2);
+                
+                backToMenuBt.setOnAction(e -> deptOptions());
+
+                newStage.setTitle("Investigate Changes");
+                newStage.setScene(scene);
+                newStage.show();
+            }
+        });
+        
+        newStage.setTitle("Investigate Changes");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+    
+    // works
+    public void changeLocationRates(){
+        newStage.close();
+        grid.getChildren().clear();
+        
+        grid.add(newFirstLocationRateL, 0, 0);
+        grid.add(newFirstLocationRateTf, 1, 0);
+        grid.add(newSecondLocationRateL, 0, 1);
+        grid.add(newSecondLocationRateTf, 1, 1);
+        grid.add(newThirdLocationRateL, 0, 2);
+        grid.add(newThirdLocationRateTf, 1, 2);
+        grid.add(newFourthLocationRateL, 0, 3);
+        grid.add(newFourthLocationRateTf, 1, 3);
+        grid.add(newFifthLocationRateL, 0, 4);
+        grid.add(newFifthLocationRateTf, 1, 4);
+        grid.add(exit, 0, 5);
+        grid.add(enter, 1, 5);
+        
+        enter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                newStage.close();
+                grid.getChildren().clear();
+                
+                double first = Double.parseDouble(newFirstLocationRateTf.getText());
+                double second = Double.parseDouble(newSecondLocationRateTf.getText());
+                double third = Double.parseDouble(newThirdLocationRateTf.getText());
+                double fourth = Double.parseDouble(newFourthLocationRateTf.getText());
+                double fifth = Double.parseDouble(newFifthLocationRateTf.getText());
+                double[] newRates = {first, second, third, fourth, fifth};
+                Property.setLocationCatRates(newRates);
+                
+                grid.add(thanksLocationRatesL, 0, 0);
+                grid.add(backToMenuBt, 0, 1);
+                grid.add(exit, 0, 2);
+                
+                backToMenuBt.setOnAction(e -> deptOptions());
+
+                newStage.setTitle("Investigate Changes");
+                newStage.setScene(scene);
+                newStage.show();
+            }
+        });
+        
+        newStage.setTitle("Investigate Changes");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+    
+    // works
+    public void changePpr(){
+        newStage.close();
+        grid.getChildren().clear();
+        
+        grid.add(newPprL, 0, 0);
+        grid.add(newPprTf, 1, 0);
+        grid.add(exit, 0, 1);
+        grid.add(enter, 1, 1);
+        
+        enter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                newStage.close();
+                grid.getChildren().clear();
+
+                Property.setPrincipalPrivateRate(Double.parseDouble(newPprTf.getText()));
+
+                grid.add(thanksPprL, 0, 0);
+                grid.add(backToMenuBt, 0, 1);
+                grid.add(exit, 0, 2);
+
+                backToMenuBt.setOnAction(e -> deptOptions());
+
+                newStage.setTitle("Investigate Changes");
+                newStage.setScene(scene);
+                newStage.show();
+            }
+        });
+        
+        newStage.setTitle("Investigate Changes");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+    
+    // works
+    public void changePenalty(){
+        newStage.close();
+        grid.getChildren().clear();
+        
+        grid.add(newPenaltyL, 0, 0);
+        grid.add(newPenaltyTf, 1, 0);
+        grid.add(exit, 0, 1);
+        grid.add(enter, 1, 1);
+        
+        enter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                newStage.close();
+                grid.getChildren().clear();
+
+                Property.setUnpaidPenalty(Double.parseDouble(newPenaltyTf.getText()));
+
+                grid.add(thanksPenaltyL, 0, 0);
+                grid.add(backToMenuBt, 0, 1);
+                grid.add(exit, 0, 2);
+
+                backToMenuBt.setOnAction(e -> deptOptions());
+
+                newStage.setTitle("Investigate Changes");
+                newStage.setScene(scene);
+                newStage.show();
+            }
+        });
+        
+        newStage.setTitle("Investigate Changes");
+        newStage.setScene(scene);
+        newStage.show();
+    }
+    
+    // not working
+    public void getStatistics(){
+        newStage.close();
+        grid.getChildren().clear();
+        
+        String stats = "";
+        double totalVal = 0;
+        int numRecords=0;
+        int numPaidRecords=0;
+              
+        // copied loop to check for error
+        for(int i = 0; i<allProps.size(); i++){
+            totalVal+=allProps.get(i).getMarketValue();
+            ArrayList<PaymentRecord> payRecords = allProps.get(i).getPaymentRecords();
+            //System.out.println(payRecords.toString());
+            numRecords += payRecords.size();
+            for(int j =0; j < payRecords.size(); j++){
+                if(payRecords.get(i).getWasPaid()){ //loop not working
+                    numPaidRecords++;
+                }
+            }
+        }
+        
+        String s = String.format("Total tax paid : %.2f\nAverage tax paid: %.2f\nNumber of property taxes paid : %d\nPercentage of taxes paid : %.2f\n",
+            totalVal, (totalVal/allProps.size()), numRecords, (numPaidRecords/numRecords));
+        
+        statsL.setText(s);
+        
+        grid.add(statsL, 0, 0);
+        grid.add(backToMenuBt, 0, 1);
+        grid.add(exit, 0, 2);
+        
+        backToMenuBt.setOnAction(e -> deptOptions());
+        
+        newStage.setTitle("Investigate Changes");
+        newStage.setScene(scene);
+        newStage.show();
     }
 }
