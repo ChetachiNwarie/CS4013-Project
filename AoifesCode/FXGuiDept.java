@@ -18,7 +18,8 @@ public class FXGuiDept extends Application{
     private Scene scene = new Scene(grid, 500, 500);
     private Stage newStage = new Stage();
     
-    DepartmentManagementMenu dmm = new DepartmentManagementMenu();
+    private DepartmentManagementMenu dmm = new DepartmentManagementMenu();
+    private PropertyManagement pm = new PropertyManagement();
     
     private Label welcomeL = new Label("Welcome to the Department of Environment Managament System");
     private Button continueBt = new Button("Continue");
@@ -69,6 +70,7 @@ public class FXGuiDept extends Application{
         primaryStage.show();
     }
     
+    // works
     public void deptOptions(){
         grid.getChildren().clear();
         
@@ -93,6 +95,7 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
+    // works
     public void propData(){
         newStage.close();
         grid.getChildren().clear();
@@ -101,28 +104,27 @@ public class FXGuiDept extends Application{
         grid.add(addressTf, 1, 0);
         grid.add(enter, 1, 1);
         
-        enter.setOnAction(e -> finishPropData());
+        enter.setOnAction(e -> getPropData());
 
         newStage.setTitle("Property Data");
         newStage.setScene(scene);
         newStage.show();
     }
     
-    public void finishPropData(){
+    // works but could neaten layout
+    public void getPropData(){
         newStage.close();
         grid.getChildren().clear();
         
+        dmm.allProperties = pm.getRegisteredProperties();
         Property b = null;
         for(int i=0; i<dmm.allProperties.size(); i++){
             if(dmm.allProperties.get(i).getAddress().equals(addressTf.getText())){
                 b = dmm.allProperties.get(i);
-            }
-            else{
-                System.err.println("property is not registered");
-            }           
+            }          
         }
                
-        propDataL.setText(dmm.getPropertyData(b));
+        propDataL.setText("Owner address eircode value location principal residence\n" + dmm.getPropertyData(b));
         
         grid.add(propDataL, 0, 0);
         grid.add(backToMenuBt, 0, 1);
@@ -135,6 +137,7 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
+    // works
     public void ownerData(){
         newStage.close();
         grid.getChildren().clear();
@@ -151,12 +154,18 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
+    // works
     public void finishOwnerData(){
         newStage.close();
         grid.getChildren().clear();
+        pm.getPropertyByOwner(ownerTf.getText()); //only used to get around array error. reads owner csv file and returns array of properties
         
-        PropertyOwner own = new PropertyOwner(ownerTf.getText());
-        ownerDataL.setText(dmm.getOwnerData(own));
+        String s = "";
+        ArrayList<Property> ownerProps = pm.getPropertyByOwner(ownerTf.getText());
+        for(int i=0; i<ownerProps.size(); i++){
+            s = s + ownerProps.get(i).toString() + "\n";
+        }
+        ownerDataL.setText(s);
         
         grid.add(ownerDataL, 0, 0);
         grid.add(backToMenuBt, 0, 1);
@@ -169,6 +178,7 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
+    // works
     public void overdueData(){
         newStage.close();
         grid.getChildren().clear();
@@ -182,22 +192,24 @@ public class FXGuiDept extends Application{
         
         enter.setOnAction(e -> finishOverdueData());
         
-        newStage.setTitle("Owner Data");
+        newStage.setTitle("Overdue Data");
         newStage.setScene(scene);
         newStage.show();        
     }
     
+    // need to fix still
     public void finishOverdueData(){
         newStage.close();
         grid.getChildren().clear();
         
-        //need to finish
+        dmm.getOverdueTax(Integer.parseInt(yearTf.getText()), eircodeRoutingKeyTf.getText());
         
-        newStage.setTitle("Owner Data");
+        newStage.setTitle("Overdue Data");
         newStage.setScene(scene);
         newStage.show();
     }
     
+    // works
     public void areaStats(){
         newStage.close();
         grid.getChildren().clear();
@@ -214,6 +226,7 @@ public class FXGuiDept extends Application{
         newStage.show();
     }
     
+    // need to fix still
     public void finishAreaStats(){
         newStage.close();
         grid.getChildren().clear();
