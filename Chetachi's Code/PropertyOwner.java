@@ -27,11 +27,14 @@ public class PropertyOwner
         initializing();
     }
 
-    public void initializing()
+   public void initializing()
     {
         try
+
         {
-            File f = new File(this.name.toUpperCase() + ".csv");
+            File pr = new File("Owners");
+            pr.mkdir();
+            File f = new File(pr, this.name.toUpperCase() + ".csv");
             if (!f.exists())
             {
                 FileWriter csvWriter2 = new FileWriter(f, true);
@@ -61,7 +64,7 @@ public class PropertyOwner
     {
         try
         {
-            File f = new File(this.name.toUpperCase() + ".csv");
+            File f = new File("Owners\\" + this.name.toUpperCase() + ".csv");
             File g = new File(name.toUpperCase() + ".csv");
             boolean a = f.exists();
             boolean b = g.exists();
@@ -110,6 +113,7 @@ public class PropertyOwner
 
     }
 
+
     public void registerProperty(String address, String eircode, double marketValue, String locationCategory, boolean principalPrivateResidence)
     {
         this.properties.add(new Property(name, address, eircode, marketValue, locationCategory, principalPrivateResidence));
@@ -122,7 +126,7 @@ public class PropertyOwner
     
     public void viewProperties()
     {
-        for (int i = 0; i < properties.size(); i++)
+        for (int i = 0; i < getProperties().size(); i++)
         {
             System.out.println(properties.get(i).toString());
         }
@@ -130,7 +134,7 @@ public class PropertyOwner
 
     public void queryYear(int year)
     {
-        for (int i = 0; i < properties.size(); i++)
+        for (int i = 0; i < getProperties().size(); i++)
         {
             System.out.println(properties.get(i).getAddress());
             System.out.println(properties.get(i).getRecord(year));
@@ -142,7 +146,7 @@ public class PropertyOwner
         ArrayList<Property> records = new ArrayList<>();
         try
         {
-            BufferedReader file = new BufferedReader(new FileReader(name.toUpperCase() + ".csv"));
+            BufferedReader file = new BufferedReader(new FileReader("Owners//" + name.toUpperCase() + ".csv"));
             String line;
             int i = 0;
 
