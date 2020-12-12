@@ -31,6 +31,7 @@ public class FXGuiOwner extends Application {
     private String location;
     private boolean principalPrivateResidence;
     private PropertyOwner owner;
+    private Property a;
    
     private Label ownerOrDeptL = new Label("Are you a property owner or Department of Environment?");
     private RadioButton ownerRb = new RadioButton("Owner");
@@ -257,13 +258,9 @@ public class FXGuiOwner extends Application {
         payTaxBt.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
-                    if (pm.getRegisteredProperties().get(i).getAddress().equals(taxAddressTf)) {
-                        //owner.payTax(pm.getRegisteredProperties().get(i)); //trying to get around error
-                        pm.getRegisteredProperties().get(i).payTax(); //saying tax wasnt paid
-                        pm.getRegisteredProperties().get(i).getRecord(LocalDateTime.now().getYear()).setWasPaid(true); //saying tax wasnt paid
-                    }
-                }
+                a.payTax();
+                owner.payTax(a);
+                a.getRecord(LocalDateTime.now().getYear()).setWasPaid(true);
                 thanksTaxL.setText("Thank you for paying");
                 backToMenuBt.setOnAction(e -> ownerOptions());
             }
@@ -278,7 +275,9 @@ public class FXGuiOwner extends Application {
         double tax = 0.0;
         for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
             if (pm.getRegisteredProperties().get(i).getAddress().equals(taxAddressTf.getText())) {
-                tax = pm.getRegisteredProperties().get(i).taxDue(); // only used to get around array error
+                a = pm.getRegisteredProperties().get(i);
+                tax = pm.getRegisteredProperties().get(i).taxDue();
+//                pm.getRegisteredProperties().get(i).getRecord(LocalDateTime.now().getYear()).setWasPaid(true);
             }
         }
         showTaxDueL.setText(Double.toString(tax));
@@ -325,7 +324,7 @@ public class FXGuiOwner extends Application {
         newStage.show();
     }
     
-    // need to fix still
+    // says not paid when paid
     public void finishViewPayments(){
         newStage.close();
         grid.getChildren().clear();
@@ -333,7 +332,7 @@ public class FXGuiOwner extends Application {
         String s = "";
         for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
             if(pm.getRegisteredProperties().get(i).getOwner().equals(name)){
-                s = pm.getRegisteredProperties().get(i).getAddress() + "\n"     //wont show payments for multiple properties
+                s = s + pm.getRegisteredProperties().get(i).getAddress() + "\n"     //saying not paid when paid
                     + pm.getRegisteredProperties().get(i).getRecord(Integer.parseInt(yearTf.getText()));
             }
             
@@ -345,6 +344,8 @@ public class FXGuiOwner extends Application {
         grid.add(viewPaymentsTa, 0, 0);
         grid.add(backToMenuBt, 0, 1);
         grid.add(exit, 0, 2);
+        
+        backToMenuBt.setOnAction(e -> ownerOptions);
         
         newStage.setTitle("Payment Records");
         newStage.setScene(scene);
