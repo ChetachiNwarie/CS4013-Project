@@ -13,7 +13,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.RadioButton;
 
 /**
- *
+ * DepartmentGui builds a GUI that allows the user to get data on property tax payments
  * @author Aoife Gleeson (19242395)
  */
 public class DepartmentGui extends Application{
@@ -190,15 +190,14 @@ public class DepartmentGui extends Application{
         newStage.close();
         grid.getChildren().clear();
         
-        dmm.allProperties = pm.getRegisteredProperties();
         Property b = null;
-        for(int i=0; i<dmm.allProperties.size(); i++){
-            if(dmm.allProperties.get(i).getAddress().equals(addressTf.getText())){
-                b = dmm.allProperties.get(i);
+        for(int i=0; i<allProps.size(); i++){
+            if(allProps.get(i).getAddress().equals(addressTf.getText())){
+                b = allProps.get(i);
             }          
         }
                
-        propDataL.setText("Owner address eircode value location principal residence\n" + dmm.getPropertyData(b));
+        propDataL.setText("Year Amount Paid\n" + dmm.getPropPaymentData(b));
         
         grid.add(propDataL, 0, 0);
         grid.add(backToMenuBt, 0, 1);
@@ -241,9 +240,9 @@ public class DepartmentGui extends Application{
         String s = "";
         ArrayList<Property> ownerProps = pm.getPropertyByOwner(ownerTf.getText());
         for(int i=0; i<ownerProps.size(); i++){
-            s = s + ownerProps.get(i).toString() + "\n";
+            s = s + ownerProps.get(i).getPaymentRecords().toString() + "\n";
         }
-        ownerDataL.setText(s);
+        ownerDataL.setText("Year Amount Paid\n" + s);
         
         grid.add(ownerDataL, 0, 0);
         grid.add(backToMenuBt, 0, 1);
@@ -304,27 +303,24 @@ public class DepartmentGui extends Application{
         newStage.close();
         grid.getChildren().clear();
 
-        // copied some loops form DepartmentManagementMenu. couldnt use methods because of println
         String routekey = eircodeRoutingKeyTf.getText();
         int year = Integer.parseInt(yearTf.getText());
-        ArrayList<Property> allProps = pm.getRegisteredProperties();
         ArrayList<Property> areaProps = new ArrayList<Property>();
-        for(int i = 0; i<allProps.size(); i++){
-            if(routekey.equals(allProps.get(i).getEircode().toUpperCase().substring(0, 3))){
+        for (int i = 0; i < allProps.size(); i++) {
+            if (routekey.equals(allProps.get(i).getEircode().toUpperCase().substring(0, 3))) {
                 areaProps.add(allProps.get(i));
             }
         }
         String overdue = "";
-
-        for(int i=0; i<areaProps.size(); i++){
-            System.out.println(areaProps.get(i).getRecord(year).isWasPaid());
-            if(!areaProps.get(i).getRecord(year).isWasPaid()){ //error here
-                //System.out.println(areaProps.get(i).getOverdueRecords().toString());
-                overdue+=areaProps.get(i).toString();
-            } 
+        for (int i = 0; i < areaProps.size(); i++) {
+            for (int j = 0; j < areaProps.get(i).getOverdueRecords().size(); j++) {
+                if (areaProps.get(i).getOverdueRecords().get(j).getYear() == year) {
+                    overdue = overdue + areaProps.get(i).getOverdueRecords().toString() + "\n";
+                }
+            }
         }
 
-        getOverdueTaxL.setText(overdue);
+        getOverdueTaxL.setText("Year Amount Paid\n" + overdue);
 
         grid.add(getOverdueTaxL, 0, 0);
         grid.add(backToMenuBt, 0, 1);
@@ -358,14 +354,16 @@ public class DepartmentGui extends Application{
 
                 int year = Integer.parseInt(yearTf.getText());
                 String overdue = "";
-                dmm.allProperties = pm.getRegisteredProperties();
-                //ArrayList<Property> areaProperties = new ArrayList<Property>();
-                for (int i = 0; i < dmm.allProperties.size(); i++) {
-                    if (!dmm.allProperties.get(i).getRecord(year).getWasPaid()) { //error here
-                        overdue += dmm.allProperties.get(i).toString() + "\n";
+                for (int i = 0; i < allProps.size(); i++) {
+                    for (int j = 0; j < allProps.get(i).getOverdueRecords().size(); j++) {
+                        if (allProps.get(i).getOverdueRecords().get(j).getYear() == year) {
+                            overdue = overdue + allProps.get(i).getOverdueRecords().toString() + "\n";
+                        }
                     }
                 }
-                getOverdueTaxL.setText(overdue);
+
+                getOverdueTaxL.setText("Year Amount Paid\n" + overdue);
+                
                 grid.add(getOverdueTaxL, 0, 0);
                 grid.add(backToMenuBt, 0, 1);
                 grid.add(exit, 0, 2);
@@ -411,7 +409,6 @@ public class DepartmentGui extends Application{
         grid.getChildren().clear();
         
         String routekey = routingKeyTf.getText();
-        ArrayList<Property> allProps = pm.getRegisteredProperties();
         ArrayList<Property> areaProps = new ArrayList<Property>();
         for(int i = 0; i<allProps.size(); i++){
             if(routekey.equals(allProps.get(i).getEircode().toUpperCase().substring(0, 3))){
