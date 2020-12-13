@@ -242,55 +242,59 @@ public class Property
         return null;
     }
 
-    //Done
-    public double taxDue()
-    {
+    
+      private double taxDueThisYear(){
         //fixed rate
         double taxDue = fixedCost;
 
         //rate based on market value
-        for (int i = 3; i >= 0; i--)
-        {
-            if (marketValue > valueBrackets[i])
-            {
-                taxDue += marketValue * valueBracketRates[i];
+        for(int i=3;i>=0;i--){
+            if(marketValue>valueBrackets[i]){
+                taxDue+=marketValue*valueBracketRates[i];
                 break;
             }
         }
 
         //charge based on location
-        switch (locationCategory)
-        {
+        switch(locationCategory){
 
-            case "city":
-                taxDue += 100;
-                break;
-            case "large town":
-                taxDue += 80;
-                break;
-            case "small town":
-                taxDue += 60;
+            case "countryside":
+                taxDue+=locationCatRates[0];
                 break;
             case "village":
-                taxDue += 50;
+                taxDue+=locationCatRates[1];
                 break;
-            case "countryside":
-                taxDue += 25;
+            case "small town":
+                taxDue+=locationCatRates[2];
                 break;
+            case "large town":
+                taxDue+=locationCatRates[3];
+                break;
+            case "city":
+                taxDue+=locationCatRates[4];
+                break;                   
+            
         }
 
         //charge if not the principal private residence
-        if (!principalPrivateResidence)
-        {
-            taxDue += 100;
+        if(!principalPrivateResidence){
+            taxDue+=100;
         }
+        
+        return taxDue;
+    }
 
+    
+   public double taxDue(){    
         //overdue penalty
-        int yearsOverdue = this.getOverdueRecords().size();
-        taxDue = taxDue * Math.pow(1 + unpaidPenalty, yearsOverdue);
-        PaymentRecord a = new PaymentRecord(currentYear, false, taxDue);
-        addToPaymentFile(a);
-
+        double taxBeforePenalty=taxDueThisYear();
+        double taxDue=taxBeforePenalty;
+        ArrayList<PaymentRecord> yearsOverdue = this.getOverdueRecords();
+        for(int i = 0; i<yearsOverdue.size(); i++){
+            int pow = currentYear-yearsOverdue.get(i).getYear();//pow is the no. of years for which a penalty applies
+            taxDue+=taxBeforePenalty*Math.pow(1+unpaidPenalty, pow);
+        }        
+        
         return taxDue;
     }
 
