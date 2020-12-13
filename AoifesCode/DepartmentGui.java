@@ -133,7 +133,6 @@ public class DepartmentGui extends Application {
         primaryStage.show();
     }
 
-    // works
     /**
      * A method which displays the options the user has and allows them to
      * select one using radio buttons
@@ -162,7 +161,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    //works
     /**
      * A method which allows the user to enter the address of a property to find
      * data for that specific property
@@ -182,7 +180,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    //works but need to neaten layout of grid
     /**
      * A method which displays the data for a particular property specified in
      * propData()
@@ -191,7 +188,6 @@ public class DepartmentGui extends Application {
         newStage.close();
         grid.getChildren().clear();
 
-        //dmm.allProperties = pm.getRegisteredProperties();
         Property b = null;
         for (int i = 0; i < allProps.size(); i++) {
             if (allProps.get(i).getAddress().equals(addressTf.getText())) {
@@ -199,7 +195,6 @@ public class DepartmentGui extends Application {
             }
         }
 
-//        propDataL.setText("Owner address eircode value location principal residence\n" + dmm.getPropertyData(b));
         propDataL.setText("Year Amount Paid\n" + dmm.getPropPaymentData(b));
 
         grid.add(propDataL, 0, 0);
@@ -212,8 +207,7 @@ public class DepartmentGui extends Application {
         newStage.setScene(scene);
         newStage.show();
     }
-
-    //works
+    
     /**
      * A method which allows the user to enter the name of an owner
      */
@@ -233,7 +227,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    //works
     /**
      * A method which displays data for a specific owner specified in
      * ownerData()
@@ -241,12 +234,11 @@ public class DepartmentGui extends Application {
     public void getOwnerData() {
         newStage.close();
         grid.getChildren().clear();
-        pm.getPropertyByOwner(ownerTf.getText()); //only used to get around array error. reads owner csv file and returns array of properties
+        pm.getPropertyByOwner(ownerTf.getText()); 
 
         String s = "";
         ArrayList<Property> ownerProps = pm.getPropertyByOwner(ownerTf.getText());
         for (int i = 0; i < ownerProps.size(); i++) {
-            //s = s + ownerProps.get(i).toString() + "\n";
             s = s + ownerProps.get(i).getPaymentRecords().toString() + "\n";
         }
         ownerDataL.setText("Year Amount Paid\n" + s);
@@ -282,7 +274,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    // works
     /**
      * A method which allows the user to enter the year and routing key for
      * which they want overdue payments data on
@@ -391,8 +382,7 @@ public class DepartmentGui extends Application {
         newStage.setScene(scene);
         newStage.show();
     }
-
-// works
+    
     /**
      * A method which allows the user to enter the routing key to find
      * statistics for that area
@@ -413,7 +403,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    // works could neaten layout more
     /**
      * A method that displays the statistics for the area specified in
      * areaStats()
@@ -446,7 +435,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    // works
     /**
      * A method which allows the user to change the fixed cost used to calculate
      * property tax
@@ -468,7 +456,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    // works
     /**
      * A method which allows the user to change the brackets of the values for
      * market value tax
@@ -496,7 +483,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    // works
     /**
      * A method which allows the user to change the rates for market value tax
      */
@@ -529,7 +515,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    // works
     /**
      * A method which allows the user to change the rates for location category
      */
@@ -565,7 +550,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    // works
     /**
      * A method which allows the user to the charge for the property not being
      * the principal private residence of the owner
@@ -595,7 +579,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    // works
     /**
      * A method which allows the user to change the penalty for previous unpaid
      * years
@@ -619,7 +602,6 @@ public class DepartmentGui extends Application {
         newStage.show();
     }
 
-    // not working
     /**
      * A method which displays a series of statistics on payment records
      */
