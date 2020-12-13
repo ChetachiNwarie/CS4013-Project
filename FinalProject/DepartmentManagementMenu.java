@@ -108,7 +108,7 @@ public class DepartmentManagementMenu {
      * @return A String containing the total tax paid, average tax paid, number
      * of property taxes paid and percentage of taxes paid for a given region.
      */
-    public String taxStatistics() {
+    public String areaStatistics() {
         System.out.println("Enter the routing key");
         String routekey = in.nextLine().toUpperCase();
         ArrayList<Property> areaProperties = areaRecords(routekey);
