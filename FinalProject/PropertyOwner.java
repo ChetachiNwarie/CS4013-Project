@@ -109,7 +109,7 @@ public class PropertyOwner {
         try
         {
             File f = new File("Owners\\" + this.name.toUpperCase() + ".csv");
-            File g = new File(name.toUpperCase() + ".csv");
+            File g = new File("Owners\\" + name.toUpperCase() + ".csv");
             boolean a = f.exists();
             boolean b = g.exists();
 
