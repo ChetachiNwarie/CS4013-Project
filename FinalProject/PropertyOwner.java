@@ -59,7 +59,7 @@ public class PropertyOwner {
     //Aoife's code
     public Property getProperty(String address){
         Property a = null;
-        for(int i=0; i<properties.size(); i++){
+        for(int i=0; i<getProperties().size(); i++){
             if(properties.get(i).getAddress().equals(address)){
                 a = properties.get(i);
             }
@@ -162,7 +162,7 @@ public class PropertyOwner {
         ArrayList<Property> records = new ArrayList<>();
         try
         {
-            BufferedReader file = new BufferedReader(new FileReader("Owners//" + name.toUpperCase() + ".csv"));
+            BufferedReader file = new BufferedReader(new FileReader("Owners\\" + name.toUpperCase() + ".csv"));
             String line;
             int i = 0;
 
@@ -235,7 +235,7 @@ public class PropertyOwner {
     {
         String[] files =
         {
-            "Properties.csv", "Owners//" + this.name.toUpperCase() + " Payment Records.csv"
+            "Properties.csv", "Owners\\" + this.name.toUpperCase() + " Payment Records.csv"
         };
         for (String filename : files)
         {
