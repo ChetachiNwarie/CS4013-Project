@@ -291,7 +291,7 @@ public class DepartmentGui extends Application {
 
         enter.setOnAction(e -> getOverdueDataWithKey());
 
-        newStage.setTitle("Owner Data");
+        newStage.setTitle("Overdue Data");
         newStage.setScene(scene);
         newStage.show();
     }
@@ -329,7 +329,7 @@ public class DepartmentGui extends Application {
 
         backToMenuBt.setOnAction(e -> deptOptions());
 
-        newStage.setTitle("Overdue Tax Data");
+        newStage.setTitle("Overdue Data");
         newStage.setScene(scene);
         newStage.show();
     }
@@ -371,7 +371,7 @@ public class DepartmentGui extends Application {
 
                 backToMenuBt.setOnAction(e -> deptOptions());
 
-                newStage.setTitle("Overdue Tax Data");
+                newStage.setTitle("Overdue Data");
                 newStage.setScene(scene);
                 newStage.show();
 
