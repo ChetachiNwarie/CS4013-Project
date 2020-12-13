@@ -280,7 +280,8 @@ public class Property
         if(!principalPrivateResidence){
             taxDue+=100;
         }
-        
+        addToPaymentFile(new PaymentRecord(currentYear, false, taxDue));
+          
         return taxDue;
     }
 
