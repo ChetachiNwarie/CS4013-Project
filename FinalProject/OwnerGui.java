@@ -1,5 +1,3 @@
-package projectc;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,22 +11,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.RadioButton;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 /**
- * OwnerGui builds a GUI to allow the user to manage their properties and their property tax payments
+ *
  * @author Aoife Gleeson (19242395)
  */
 public class OwnerGui extends Application {
-
-    private PropertyManagement pm = new PropertyManagement();
-
     private GridPane grid = new GridPane();
     private Scene scene = new Scene(grid, 500, 500);
     private Stage newStage = new Stage();
-
+    
     private DepartmentManagementMenu dmm = new DepartmentManagementMenu();
-
+    private PropertyManagement pm = new PropertyManagement();
+    
     private String name;
     private String address;
     private String eircode;
@@ -37,16 +32,16 @@ public class OwnerGui extends Application {
     private boolean principalPrivateResidence;
     private PropertyOwner owner;
     private Property a;
-
+   
     private Label ownerOrDeptL = new Label("Are you a property owner or Department of Environment?");
     private RadioButton ownerRb = new RadioButton("Owner");
     private RadioButton deptRb = new RadioButton("Department");
     private Button exit = new Button("Exit");
-
+    
     private Label enterNameL = new Label("Enter name:");
     private TextField nameTf = new TextField();
     private Button enter = new Button("Enter");
-
+    
     private Label optionsL = new Label("Do you want to:");
     private RadioButton registerRb = new RadioButton("Register a property");
     private RadioButton payTaxDueRb = new RadioButton("Pay tax due");
@@ -86,10 +81,10 @@ public class OwnerGui extends Application {
     private TextField yearTf = new TextField();
 
     private TextArea viewPaymentsTa = new TextArea();
-
+    
     private TextArea viewPropertiesTa = new TextArea();
-
-    /**
+       
+     /**
      * A method which creates the first window that gives an option to the user
      * to select owner or Department of Environment
      *
@@ -107,9 +102,9 @@ public class OwnerGui extends Application {
         grid.add(exit, 1, 3);
 
         ownerRb.setOnAction(e -> name());
-        deptRb.setOnAction(new EventHandler<ActionEvent>() {
+        deptRb.setOnAction(new EventHandler<ActionEvent>(){
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event){
                 DepartmentGui dept = new DepartmentGui();
                 Stage newStage = new Stage();
                 dept.start(newStage);
@@ -119,11 +114,11 @@ public class OwnerGui extends Application {
 
         ExitHandlerClass handler1 = new ExitHandlerClass();
         exit.setOnAction(handler1);
-
+        
         primaryStage.setTitle("Welcome");
         primaryStage.setScene(scene);
         primaryStage.show();
-
+        
     }
 
     /**
@@ -132,7 +127,7 @@ public class OwnerGui extends Application {
      */
     public void name() {
         grid.getChildren().clear();
-
+        
         grid.add(enterNameL, 0, 0);
         grid.add(nameTf, 1, 0);
         grid.add(enter, 1, 1);
@@ -154,11 +149,12 @@ public class OwnerGui extends Application {
         grid.getChildren().clear();
 
         name = nameTf.getText();
-
-        for (int i = 0; i < pm.getRegisteredOwners().size(); i++) {
-            if (name.equals(pm.getRegisteredOwners().get(i).getName())) {
+        
+        for( int i=0; i < pm.getRegisteredOwners().size(); i++ )
+        {
+            if( name.equals(pm.getRegisteredOwners().get(i).getName()) )
                 owner = pm.getRegisteredOwners().get(i);
-            } else {
+            else{
                 owner = new PropertyOwner(name);
             }
         }
@@ -172,11 +168,11 @@ public class OwnerGui extends Application {
         grid.add(exit, 1, 5);
 
         registerRb.setOnAction(e -> registerProp());
-        payTaxDueRb.setOnAction(e -> payTax());
+        payTaxRb.setOnAction(e -> payTax());
         viewPropRb.setOnAction(e -> viewProperties());
         statementRb.setOnAction(e -> setViewPayments());
 
-        newStage.setTitle("Property details");
+        newStage.setTitle("Owner Details");
         newStage.setScene(scene);
         newStage.show();
     }
@@ -199,7 +195,7 @@ public class OwnerGui extends Application {
         grid.add(eircodeTf, 1, 2);
         grid.add(marketValueTf, 1, 3);
         grid.add(cityRb, 1, 4);
-        grid.add(largeTownRb, 1, 5);
+        grid.add(largeTownRb, 1 ,5);
         grid.add(smallTownRb, 1, 6);
         grid.add(villageRb, 1, 7);
         grid.add(countrysideRb, 1, 8);
@@ -210,11 +206,11 @@ public class OwnerGui extends Application {
 
         enter.setOnAction(e -> confirmRegisterProp());
 
-        newStage.setTitle("Property details");
+        newStage.setTitle("Register Property");
         newStage.setScene(scene);
         newStage.show();
     }
-
+    
     /**
      * A method that registers a new property for the owner unless it is already
      * registered
@@ -226,37 +222,38 @@ public class OwnerGui extends Application {
         address = addressTf.getText().toUpperCase();
         eircode = eircodeTf.getText();
         marketValue = Double.parseDouble(marketValueTf.getText());
-        if (cityRb.isSelected()) {
-            location = "CITY";
+        if(cityRb.isSelected()){
+            location = "city";
         }
-        if (largeTownRb.isSelected()) {
-            location = "LARGE TOWN";
+        if(largeTownRb.isSelected()){
+            location = "large town";
         }
-        if (smallTownRb.isSelected()) {
-            location = "SMALL TOWN";
+        if(smallTownRb.isSelected()){
+            location = "small town";
         }
-        if (villageRb.isSelected()) {
-            location = "VILLAGE";
+        if(villageRb.isSelected()){
+            location = "village";
         }
-        if (countrysideRb.isSelected()) {
-            location = "COUNTRYSIDE";
+        if(countrysideRb.isSelected()){
+            location = "countryside";
         }
-        if (yesPprRb.isSelected()) {
+        if(yesPprRb.isSelected()){
             principalPrivateResidence = true;
-        } else if (noPprRb.isSelected()) {
+        }
+        else if(noPprRb.isSelected()){
             principalPrivateResidence = false;
         }
-
-        owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence); 
+        
+        owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence);
         pm.registerProperty(new Property(name, address, eircode, marketValue, location, principalPrivateResidence));
-
+        
         grid.add(thanksRegisterL, 0, 0);
         grid.add(backToMenuBt, 0, 1);
         grid.add(exit, 0, 2);
 
         backToMenuBt.setOnAction(e -> ownerOptions());
 
-        newStage.setTitle("Property details");
+        newStage.setTitle("Register Property");
         newStage.setScene(scene);
         newStage.show();
     }
@@ -280,7 +277,7 @@ public class OwnerGui extends Application {
         newStage.setScene(scene);
         newStage.show();
     }
-
+    
     /**
      * A method that Uses the taxDue() method to find the tax due this year for
      * the property the owner entered
@@ -309,7 +306,7 @@ public class OwnerGui extends Application {
         newStage.setScene(scene);
         newStage.show();
     }
-
+    
     /**
      * A method which uses the payTax() method to pay the tax for the property specified
      */
@@ -332,7 +329,7 @@ public class OwnerGui extends Application {
         newStage.setScene(scene);
         newStage.show();
     }
-
+    
     /**
      * A method that displays a list of the owners registered properties in a
      * text area
@@ -342,24 +339,25 @@ public class OwnerGui extends Application {
         grid.getChildren().clear();
 
         String s = "";
-        for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
-            if (pm.getRegisteredProperties().get(i).getOwner().equals(name)) {
+        for(int i=0; i<pm.getRegisteredProperties().size(); i++){
+            if(pm.getRegisteredProperties().get(i).getOwner().equals(name)){
                 s = s + pm.getRegisteredProperties().get(i).getAddress() + " " +
                         pm.getRegisteredProperties().get(i).getEircode() + "\n";
             }
         }
         viewPropertiesTa.setText("Address Eircode\n" + s);
         viewPropertiesTa.setEditable(false);
-
+        
         grid.add(viewPropertiesTa, 0, 0);
         grid.add(backToMenuBt, 0, 1);
         grid.add(exit, 0, 2);
-
+        
         backToMenuBt.setOnAction(e -> ownerOptions());
 
         newStage.setTitle("View Properties");
         newStage.setScene(scene);
         newStage.show();
+
     }
 
     /**
@@ -369,51 +367,48 @@ public class OwnerGui extends Application {
     public void setViewPayments() {
         newStage.close();
         grid.getChildren().clear();
-
+        
         grid.add(yearL, 0, 0);
         grid.add(yearTf, 1, 0);
         grid.add(enter, 1, 1);
         grid.add(exit, 0, 1);
-
+        
         enter.setOnAction(e -> getViewPayments());
 
         newStage.setTitle("Payment Records");
         newStage.setScene(scene);
         newStage.show();
     }
-
+    
     /**
      * A method that displays payment records for the year specified in
      * setViewPayments()
      */
-    public void getViewPayments() {
+    public void getViewPayments(){
         newStage.close();
         grid.getChildren().clear();
-
+        
         String s = "";
         for (int i = 0; i < pm.getRegisteredProperties().size(); i++) {
-            if (pm.getRegisteredProperties().get(i).getOwner().equals(name)) {
-                s = s + pm.getRegisteredProperties().get(i).getAddress() + "\n"
-                        + pm.getRegisteredProperties().get(i).getRecord(Integer.parseInt(yearTf.getText())) + "\n";
-            }
+            if(pm.getRegisteredProperties().get(i).getOwner().equals(name)){
+                s = s + pm.getRegisteredProperties().get(i).getAddress() + "\n"     
+                    + pm.getRegisteredProperties().get(i).getRecord(Integer.parseInt(yearTf.getText()));
+            }          
         }
-
+        
         viewPaymentsTa.setEditable(false);
         viewPaymentsTa.setText(s);
-
+        
         grid.add(viewPaymentsTa, 0, 0);
         grid.add(backToMenuBt, 0, 1);
         grid.add(exit, 0, 2);
-
-        backToMenuBt.setOnAction(e -> ownerOptions());
-
+        
+        backToMenuBt.setOnAction(e -> ownerOptions);
+        
         newStage.setTitle("Payment Records");
         newStage.setScene(scene);
         newStage.show();
-    }
-    
-    public static void main(String[] args) {
-        launch(args);
-    }
+    }   
 }
+
 
