@@ -21,12 +21,14 @@ Each team member wrote the javadoc for their own methods as listed in implementa
 
 
 Implementation:
+Note; any overlap of methods is intentional and means more than one of us contributed
+
 Methods made by Chetachi:
 In PaymentRecord; replaceLine, toString
 In Property; initializingFiles, getPaymentRecords, setPaymentRecords, deleteProperty, removePropertyFrom, removeFromPaymentFile, addToPaymentFile, payTax, toString, replaceLine,
 getEircode, setEircode, getOwner, setOwner, getAddress, setAddress, getMarketValue, setMarketValue, getLocationCategory, setLocationCategory, isPrincipalPrivateResidence, setPrincipalPrivateResidence,
 fileContainsLine, addPropertyTo, swapPropertyTo.
-In PropertyManagement; All methods
+In PropertyManagement; All methods except getPropertyByOwner
 In PropertyOwner; initializing, getName, setName, getProperties, readPropertiesFile, replaceLine, toString, addPropertyTo, swapPropertyTo, removePropertyFrom
 
 Methods made by Sam:
@@ -40,6 +42,7 @@ Methods made by Aoife:
 In DepartmentGui; All methods
 In OwnerGui; All methods
 In DepartmentManagementMenu; getPropPaymentData, sortByEircode
+In PropertyManagement; getPropertyByOwner
 In ExitHandlerClass; All methods
 In GuiRun; All methods
 In PropertyOwner; getProperty
