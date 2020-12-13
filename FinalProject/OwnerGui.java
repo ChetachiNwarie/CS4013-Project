@@ -36,7 +36,6 @@ public class OwnerGui extends Application {
     private String location;
     private boolean principalPrivateResidence;
     private PropertyOwner owner;
-    //public ArrayList<Property> ownProps = new ArrayList<Property>();
     private Property a;
 
     private Label ownerOrDeptL = new Label("Are you a property owner or Department of Environment?");
@@ -164,7 +163,6 @@ public class OwnerGui extends Application {
             }
         }
         pm.registerOwner(owner);
-        //ownProps = pm.getPropertyByOwner(name);
 
         grid.add(optionsL, 0, 0);
         grid.add(registerRb, 0, 1);
@@ -249,7 +247,7 @@ public class OwnerGui extends Application {
             principalPrivateResidence = false;
         }
 
-        owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence); //not adding to array list
+        owner.registerProperty(address, eircode, marketValue, location, principalPrivateResidence); 
         pm.registerProperty(new Property(name, address, eircode, marketValue, location, principalPrivateResidence));
 
         grid.add(thanksRegisterL, 0, 0);
@@ -419,15 +417,3 @@ public class OwnerGui extends Application {
     }
 }
 
-class ExitHandlerClass implements EventHandler<ActionEvent> {
-
-    /**
-     * Exits the program
-     *
-     * @param e
-     */
-    @Override
-    public void handle(ActionEvent e) {
-        System.exit(0);
-    }
-}
