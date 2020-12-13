@@ -8,7 +8,23 @@ public class CommandLineRun
 {
    static Scanner in = new Scanner(System.in);
    
-   
+   /**
+     * Main method to choose to access as a property owner or as Department of Environment.
+     */
+    public static void main( String[] args )
+    {
+        System.out.println("Access system as P)roperty owner or D)epartment of Environment");
+        String command = in.nextLine().toUpperCase();
+        if( command.equals("P") )
+            propOwn();
+
+        else if( command.equals("D") )
+            depManMenu();
+    }
+    
+     /**
+     * Command line interface for property owner with choice of possible operations.
+     */
      public static void propOwn()
     {
         PropertyManagement pm = new PropertyManagement();
