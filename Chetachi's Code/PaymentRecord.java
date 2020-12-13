@@ -23,7 +23,7 @@ public class PaymentRecord
         this.amount = amount;
     }
 
-    public boolean isWasPaid()
+    public boolean getWasPaid()
     {
         return wasPaid;
     }
@@ -46,11 +46,6 @@ public class PaymentRecord
     public int getYear()
     {
         return year;
-    }
-
-    public boolean getWasPaid()
-    {
-        return wasPaid;
     }
     
     
