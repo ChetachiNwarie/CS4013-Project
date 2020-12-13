@@ -235,7 +235,7 @@ public class PropertyOwner {
     {
         String[] files =
         {
-            "Properties.csv", "Owners\\" + this.name.toUpperCase() + " Payment Records.csv"
+            "Properties.csv", "Owners\\" + this.name.toUpperCase() + ".csv"
         };
         for (String filename : files)
         {
