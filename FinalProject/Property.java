@@ -573,7 +573,7 @@ public class Property
 
                         String a = Arrays.toString(split);
                         String[] split2 = a.split("(\\[)|(\\])");
-                        line = split2[1];
+                        line = split2[1].replaceAll(",\\s",",");
                     }
 
                     inputBuffer.append(line);
