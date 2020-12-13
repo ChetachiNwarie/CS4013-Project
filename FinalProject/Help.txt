@@ -1,0 +1,25 @@
+To compile and run the project from the command line
+
+1) Make sure you have the JDK installed
+
+2) Open the command line(On windows, use Windows Key + R and then type in cmd)
+
+3) Locate the directory where you have downloaded the program e.g. C:\Users\ThisUser\Documents\Projects\Group20\java
+Change to this directory in the command line using the cd command as follows,
+cd C:\Users\ThisUser\Documents\Projects\Group20\java
+
+4) Locate the directory where the JDK is installed on your computer and set the path there as follows,
+set path=%path%;C:\Program Files\Java\jdk-15\bin
+
+5) Compile the java program with the javac command as follows,
+javac GuiRun.java
+or
+javac CommandLineRun.java
+
+Note: Nothing should happen in the command line after this command but if you type in dir then you should find
+a GuiRun.class or CommandLineRun.class file. This confirms that the code has been compiled.
+
+6) Run the code using the java command as follows,
+java GuiRun.java
+or
+java CommandLineRun.java
