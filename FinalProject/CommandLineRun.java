@@ -126,7 +126,7 @@ public class CommandLineRun
             }
             else if (command.equals("D"))
             { 
-                dmm.taxStatistics();
+                dmm.areaStatistics();
             }
             else if (command.equals("E"))
             { 
