@@ -26,6 +26,10 @@ public class DepartmentManagementMenu {
         System.err.println("No such property is registered");
         return null;
     }
+    
+    public String getPropPaymentData(Property p){
+        return p.getPaymentRecords().toString();
+    }
 
     public String getOwnerData(PropertyOwner own){
         return own.toString();
@@ -85,7 +89,7 @@ public class DepartmentManagementMenu {
         return routeKeyProps;
     }
 
-    private String statistics(ArrayList<Property> props){    
+    public String statistics(ArrayList<Property> props){    //changed to public as cant use investigate()
         String stats = "";
         double totalVal = 0;
         int numRecords=0;
@@ -96,13 +100,13 @@ public class DepartmentManagementMenu {
             ArrayList<PaymentRecord> payRecords = props.get(i).getPaymentRecords();
             numRecords += payRecords.size();
             for(int j =0; j < payRecords.size(); j++){
-                if(payRecords.get(i).getWasPaid()){
+                if(payRecords.get(j).getWasPaid()){ // changed i to j
                     numPaidRecords++;
                 }
             }
         }
 
-        return String.format("Total tax paid : %.2f\nAverage tax paid: %.2f\nNumber of property taxes paid : %d\nPercentage of taxes paid : %.2f\n",
+        return String.format("Total tax paid : %.2f\nAverage tax paid: %.2f\nNumber of property taxes paid : %d\nPercentage of taxes paid : %d\n",
             totalVal, (totalVal/props.size()), numRecords, (numPaidRecords/numRecords));
     }
 
