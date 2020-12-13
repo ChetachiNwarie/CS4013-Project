@@ -1,0 +1,40 @@
+Design:
+
+
+
+Documentation:
+
+
+
+Implementation:
+Methods made by Chetachi:
+In PaymentRecord; replaceLine, toString
+In Property; initializingFiles, getPaymentRecords, setPaymentRecords, deleteProperty, removePropertyFrom, removeFromPaymentFile, addToPaymentFile, payTax, toString, replaceLine,
+getEircode, setEircode, getOwner, setOwner, getAddress, setAddress, getMarketValue, setMarketValue, getLocationCategory, setLocationCategory, isPrincipalPrivateResidence, setPrincipalPrivateResidence,
+fileContainsLine, addPropertyTo, swapPropertyTo.
+In PropertyManagement; All methods
+In PropertyOwner; initializing, getName, setName, getProperties, readPropertiesFile, replaceLine, toString, addPropertyTo, swapPropertyTo, removePropertyFrom
+
+Methods made by Sam:
+In DepartmentManagementMenu; getPropertyData, getOwnerData, getOverdueTax, areaRecords, areaStatistics, statistics, investigate
+In PaymentRecord; PaymentRecord, getWasPaid, setWasPaid, getAmount, setAmount, getYear.
+In Property; Property, setFixedCost, setValueBrackets, setValueBracketRates, setLocationCatRates, setPrincipalPrivateRate, setUnpaidPenalty, getCurrentYear, getRecord, getAllRecords,
+taxDueThisYear, taxDue, getOverdueRecords, payTax.
+In PropertyOwner; PropertyOwner, registerProperty, payTax, viewProperties, queryYear, queryProperty
+
+Methods made by Aoife:
+In DepartmentGui; All methods
+In OwnerGui; All methods
+In DepartmentManagementMenu; getPropPaymentData, sortByEircode
+In ExitHandlerClass; All methods
+In GuiRun; All methods
+In PropertyOwner; getProperty
+
+Methods made by Owen:
+In CommandLineRun: All methods
+
+
+
+Testing:
+
+
