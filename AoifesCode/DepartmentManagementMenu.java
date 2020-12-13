@@ -83,12 +83,6 @@ public class DepartmentManagementMenu {
         return statistics(areaProperties);        
     }
     
-    public ArrayList<Property> sortByEircode(String routekey){
-        routekey = routekey.toUpperCase();
-        ArrayList<Property> routeKeyProps = areaRecords(routekey);
-        return routeKeyProps;
-    }
-
     public String statistics(ArrayList<Property> props){    //changed to public as cant use investigate()
         String stats = "";
         double totalVal = 0;
