@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,12 +61,13 @@ public class PropertyManagement
         }
         return props;
     }
-       
-    public ArrayList<Property> getPropertyByOwner(String owner){ //added to stop array error
+
+    public ArrayList<Property> getPropertyByOwner(String owner)
+    { //added to stop array error
         ArrayList<Property> props = new ArrayList<>();
         try
         {
-            BufferedReader csvReader = new BufferedReader(new FileReader(owner.toUpperCase() + ".csv"));
+            BufferedReader csvReader = new BufferedReader(new FileReader("Owners\\" + owner.toUpperCase() + ".csv"));
             String line;
             while ((line = csvReader.readLine()) != null)
             {
@@ -103,18 +103,15 @@ public class PropertyManagement
 
         try
         {
-            File file = new File(p.getName().toUpperCase() + ".csv");
-            if (file.exists())
-            {
 
-                //System.out.println("Owner already registered.");
+            File o = new File("Owners");
+            o.mkdir();
 
-            }
-            else
-
+            File file = new File(o, p.getName().toUpperCase() + ".csv");
+            if (!file.exists())
             {
                 FileWriter csvWriter = new FileWriter(file, true);
-                csvWriter.write("Address,Eircode,MarketValue,Location,Private Residence,");
+                csvWriter.append("Owner,Address,Eircode,Market Value,Location,Private Residence\n");
                 registeredOwners.add(p);
             }
 
@@ -125,17 +122,13 @@ public class PropertyManagement
         }
 
     }
-    
+
     public void registerProperty(Property p)
     {
-        if (registeredProperties.contains(p))
-        {
-            System.out.println("Property already registered.");
-        }
-        else
+        if (!registeredProperties.contains(p))
         {
             registeredProperties.add(p);
-            initializing();
+            readPropertiesFile();
         }
     }
 
@@ -237,42 +230,6 @@ public class PropertyManagement
 
     }
 
-    public void initializing()
-    {
-        try
-        {
-
-            for (PropertyOwner j : registeredOwners)
-            {
-
-                FileWriter csvWrite = new FileWriter(j.getName().toUpperCase() + ".csv");
-
-                csvWrite.append("Owner");
-                csvWrite.append(",");
-                csvWrite.append("Address");
-                csvWrite.append(",");
-                csvWrite.append("Eircode");
-                csvWrite.append(",");
-                csvWrite.append("Market Value");
-                csvWrite.append(",");
-                csvWrite.append("Location");
-                csvWrite.append(",");
-                csvWrite.append("Private Residence");
-                csvWrite.append("\n");
-
-                csvWrite.flush();
-                csvWrite.close();
-            }
-
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(Property.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-        
-
     public void addToPropertiesFile(Property a)
     {
         if (getRegisteredProperties().contains(a))
@@ -281,13 +238,30 @@ public class PropertyManagement
         }
         if (!getRegisteredOwners().contains(a.getOwner()))
         {
-            File f = new File(a.getOwner().toUpperCase() + ".csv");
+            try
+            {
+                File o = new File("Owners");
+                o.mkdir();
+                File f = new File(o, a.getOwner().toUpperCase() + ".csv");
+                if (!f.exists())
+                {
+                    FileWriter csvWriter2 = new FileWriter(f, true);
+                    csvWriter2.append("Owner,Address,Eircode,Market Value,Location,Private Residence\n");
+                    csvWriter2.append(toString() + "\n");
+                    csvWriter2.flush();
+                    csvWriter2.close();
+                }
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(PropertyManagement.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         }
 
         String[] files =
         {
-            "Properties.csv", a.getOwner().toUpperCase() + ".csv"
+            "Properties.csv", "Owners\\" + a.getOwner().toUpperCase() + ".csv"
         };
         for (String filename : files)
         {
@@ -315,4 +289,3 @@ public class PropertyManagement
     }
 
 }
-
