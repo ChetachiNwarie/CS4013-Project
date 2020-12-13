@@ -125,7 +125,7 @@ public class Property
         ArrayList<PaymentRecord> records = new ArrayList<>();
         try
         {
-            BufferedReader file = new BufferedReader("Payment Records\\" + new FileReader(address.toUpperCase() + " Payment Records.csv"));
+            BufferedReader file = new BufferedReader(new FileReader("Payment Records\\" + address.toUpperCase() + " Payment Records.csv"));
             String line;
             int i = 0;
 
