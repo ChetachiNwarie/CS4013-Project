@@ -7,6 +7,10 @@ import java.util.Scanner;
 public class CommandLineRun
 {
    static Scanner in = new Scanner(System.in);
+   private String[] locations =
+    {
+        "City", "Large town", "Small Town", "Village", "Countryside"
+    };
    
    /**
      * Main method to choose to access as a property owner or as Department of Environment.
@@ -59,7 +63,7 @@ public class CommandLineRun
                 System.out.println("Enter market value: ");
                 double mVal = in.nextDouble();
                 System.out.println("Enter location category: ");
-                String lCat = in.nextLine().toUpperCase();
+                String loc = (String) getChoice(locations);
                 boolean ppr = false;
                 System.out.println("Is this your principal private residence? Y/N");
                 String ans = in.nextLine().toUpperCase();
@@ -151,6 +155,29 @@ public class CommandLineRun
             else if (command.equals("F"))
             { 
                 more = false;
+            }
+        }
+    }
+   
+   private String getChoice(String[] choices)
+    {
+        if (choices.length == 0)
+        {
+            return null;
+        }
+        while (true)
+        {
+            char c = 'A';
+            for (String choice : choices)
+            {
+                System.out.println(c + ") " + choice);
+                c++;
+            }
+            String input = in.next();
+            int n = input.toUpperCase().charAt(0) - 'A';
+            if (0 <= n && n < choices.length)
+            {
+                return choices[n];
             }
         }
     }
