@@ -3,6 +3,10 @@ Design:
 
 
 Documentation:
+The UML Diagram was made by Sam and Chetachi. 
+Sam made the CRC cards for Property, PaymentRecord, PropertyOwner, DepartmentManagementMenu, CommandLineRun, PropertyManagement and
+ExitHandlerClass. Aoife made the CRC card for GuiRun, DepartmentGui and OwnerGui.
+Each team member wrote the javadoc for their own methods as listed in implementation.
 
 
 
