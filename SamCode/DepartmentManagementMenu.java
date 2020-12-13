@@ -1,6 +1,5 @@
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
 
 /**
@@ -28,6 +27,11 @@ public class DepartmentManagementMenu {
         }
         System.err.println("No such property is registered");
         return null;
+    }
+    
+    //aoife's method
+    public String getPropPaymentData(Property p){
+        return p.getPaymentRecords().toString();
     }
 
     /**
@@ -121,7 +125,7 @@ public class DepartmentManagementMenu {
      * (the total tax paid, average tax paid, number of property taxes paid and
      * percentage of taxes paid)
      */
-    private String statistics(ArrayList<Property> props) {
+    public String statistics(ArrayList<Property> props) {
         String stats = "";
         double totalAmount = 0;
         int numRecords = 0;
@@ -134,8 +138,8 @@ public class DepartmentManagementMenu {
                 totalAmount += payRecords.get(j).getAmount();
             }
             numRecords += payRecords.size();
-            for (int j = 0; j < payRecords.size(); j++) {
-                if (payRecords.get(i).getWasPaid()) {
+            for (int k = 0; k < payRecords.size(); k++) {
+                if (payRecords.get(k).getWasPaid()) {
                     numPaidRecords++;
                 }
             }

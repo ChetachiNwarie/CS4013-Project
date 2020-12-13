@@ -516,7 +516,7 @@ public class Property
     {
         ArrayList<PaymentRecord> overdueRecords = getOverdueRecords();
         
-        for (int i = 0; i < overdueRecords.size(); i++)
+        for(int i = 0; i < overdueRecords.size(); i++)
         {
             if(overdueRecords.get(i).getYear()==currentYear){
                 overdueRecords.get(i).setAmount(this.taxDue());
