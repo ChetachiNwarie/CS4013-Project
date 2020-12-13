@@ -54,3 +54,12 @@ In CommandLineRun: All methods
 
 Testing:
 
+Chetachi mostly tested the classes related to csv files. Her focus was on PropertyManagement but she also helped in testing Property. She also made the csv files we used for most of our testing.
+
+Sam did a lot of the testing in the early phases of the project to make sure that the Property, PaymentRecord, PropertyOwner and DepartmentManagementMenu classes worked. He put
+a good bit of his efforts into testing the taxDue method in Property and the investigate and statistics methods in DepartmentManagementMenu, making sure that all of the 
+calculations were correct.
+
+Aoife tested the GUI, making sure that each button and each input did what it was meant to and that the GUI could access and display the information stored in csv files.
+
+Owen similarly tested the commandline and made sure it handled each input correctly and could display the requested data from the relevant csv file.
