@@ -29,36 +29,19 @@ public class DepartmentGui extends Application {
 
     private ArrayList<Property> allProps = pm.getRegisteredProperties();
 
-    private Label welcomeL = new Label("Welcome to the Department of Environment Managament System");
-    private Button continueBt = new Button("Continue");
-
-    private Label optionsL = new Label("Do you want to:");
-    private RadioButton dataParticularPropRb = new RadioButton("Get property tax payment data for a particular property");
-    private RadioButton dataParticularOwnerRb = new RadioButton("Get property tax payment data for a particular property owner");
-    private RadioButton overdueTaxRb = new RadioButton("Get a list of all overdue property tax for a particular year");
-    private RadioButton dataParticularAreaRb = new RadioButton("Get property tax statistics for a particular area");
-    private RadioButton investigateRb = new RadioButton("Investigate the impact of possible changes to the rates and levies");
     private Button exit = new Button("Exit");
 
     private Button enter = new Button("Enter");
-    private Label enterAddressL = new Label("Enter the address");
     private TextField addressTf = new TextField();
 
     private Label propDataL = new Label();
     private Button backToMenuBt = new Button("Back to menu");
 
-    private Label enterOwnerL = new Label("Enter owner:");
     private TextField ownerTf = new TextField();
 
     private Label ownerDataL = new Label();
 
-    private Label useEircodeL = new Label("Do you want to use an eircode routing key?");
-    private RadioButton yesKeyRb = new RadioButton("Yes");
-    private RadioButton noKeyRb = new RadioButton("No");
-
-    private Label enterYearL = new Label("Enter year:");
     private TextField yearTf = new TextField();
-    private Label enterEircodeRoutingKeyL = new Label("Enter eircode routing key:");
     private TextField eircodeRoutingKeyTf = new TextField();
     private Label getOverdueTaxL = new Label();
 
@@ -67,49 +50,27 @@ public class DepartmentGui extends Application {
 
     private TextArea areaStatsTa = new TextArea();
 
-    private Label changeFixedCostL = new Label("Change fixed cost");
-    private Label newFixedCostL = new Label("Enter the new fixed cost");
     private TextField newFixedCostTf = new TextField();
 
-    private Label changeBracketValueL = new Label("Change bracket values");
-    private Label newFirstBracketValueL = new Label("Enter the first value");
     private TextField newFirstBracketValueTf = new TextField();
-    private Label newSecondBracketValueL = new Label("Enter the second value");
     private TextField newSecondBracketValueTf = new TextField();
-    private Label newThirdBracketValueL = new Label("Enter the third value");
     private TextField newThirdBracketValueTf = new TextField();
 
-    private Label changeBracketRateL = new Label("Change bracket rates");
-    private Label newFirstBracketRateL = new Label("Enter the first value");
     private TextField newFirstBracketRateTf = new TextField();
-    private Label newSecondBracketRateL = new Label("Enter the second value");
     private TextField newSecondBracketRateTf = new TextField();
-    private Label newThirdBracketRateL = new Label("Enter the third value");
     private TextField newThirdBracketRateTf = new TextField();
-    private Label newFourthBracketRateL = new Label("Enter the fourth value");
     private TextField newFourthBracketRateTf = new TextField();
 
-    private Label changeLocationRateL = new Label("Change location rate");
-    private Label newFirstLocationRateL = new Label("Enter the first value");
     private TextField newFirstLocationRateTf = new TextField();
-    private Label newSecondLocationRateL = new Label("Enter the second value");
     private TextField newSecondLocationRateTf = new TextField();
-    private Label newThirdLocationRateL = new Label("Enter the third value");
     private TextField newThirdLocationRateTf = new TextField();
-    private Label newFourthLocationRateL = new Label("Enter the fourth value");
     private TextField newFourthLocationRateTf = new TextField();
-    private Label newFifthLocationRateL = new Label("Enter the fifth value");
     private TextField newFifthLocationRateTf = new TextField();
 
-    private Label changePprL = new Label("Change charge for not \nbeing principal residence");
-    private Label newPprL = new Label("Enter the new value");
     private TextField newPprTf = new TextField();
-
-    private Label changePenaltyL = new Label("Change penalty");
-    private Label newPenaltyL = new Label("Enter the new value");
+    
     private TextField newPenaltyTf = new TextField();
-    private Label thanksPenaltyL = new Label("Thank you for changing the penalty");
-
+    
     private Label statsL = new Label();
 
     /**
@@ -123,6 +84,9 @@ public class DepartmentGui extends Application {
         grid.setHgap(10);
         grid.setVgap(10);
 
+        Label welcomeL = new Label("Welcome to the Department of Environment Managament System");
+        Button continueBt = new Button("Continue");
+        
         grid.add(welcomeL, 0, 0);
         grid.add(continueBt, 0, 1);
 
@@ -140,6 +104,13 @@ public class DepartmentGui extends Application {
     public void deptOptions() {
         grid.getChildren().clear();
 
+        Label optionsL = new Label("Do you want to:");
+        RadioButton dataParticularPropRb = new RadioButton("Get property tax payment data for a particular property");
+        RadioButton dataParticularOwnerRb = new RadioButton("Get property tax payment data for a particular property owner");
+        RadioButton overdueTaxRb = new RadioButton("Get a list of all overdue property tax for a particular year");
+        RadioButton dataParticularAreaRb = new RadioButton("Get property tax statistics for a particular area");
+        RadioButton investigateRb = new RadioButton("Investigate the impact of possible changes to the rates and levies");
+        
         grid.add(optionsL, 0, 0);
         grid.add(dataParticularPropRb, 0, 1);
         grid.add(dataParticularOwnerRb, 0, 2);
@@ -168,6 +139,8 @@ public class DepartmentGui extends Application {
     public void propData() {
         newStage.close();
         grid.getChildren().clear();
+        
+        Label enterAddressL = new Label("Enter the address");
 
         grid.add(enterAddressL, 0, 0);
         grid.add(addressTf, 1, 0);
@@ -207,13 +180,15 @@ public class DepartmentGui extends Application {
         newStage.setScene(scene);
         newStage.show();
     }
-    
+
     /**
      * A method which allows the user to enter the name of an owner
      */
     public void ownerData() {
         newStage.close();
         grid.getChildren().clear();
+        
+        Label enterOwnerL = new Label("Enter owner:");
 
         grid.add(enterOwnerL, 0, 0);
         grid.add(ownerTf, 1, 0);
@@ -239,6 +214,7 @@ public class DepartmentGui extends Application {
         String s = "";
         ArrayList<Property> ownerProps = pm.getPropertyByOwner(ownerTf.getText());
         for (int i = 0; i < ownerProps.size(); i++) {
+            
             s = s + ownerProps.get(i).getPaymentRecords().toString() + "\n";
         }
         ownerDataL.setText("Year Amount Paid\n" + s);
@@ -261,6 +237,10 @@ public class DepartmentGui extends Application {
     public void overdueData() {
         newStage.close();
         grid.getChildren().clear();
+        
+        Label useEircodeL = new Label("Do you want to use an eircode routing key?");
+        RadioButton yesKeyRb = new RadioButton("Yes");
+        RadioButton noKeyRb = new RadioButton("No");
 
         grid.add(useEircodeL, 0, 0);
         grid.add(yesKeyRb, 0, 1);
@@ -281,6 +261,9 @@ public class DepartmentGui extends Application {
     public void setDetailsOverdueDataWithKey() {
         newStage.close();
         grid.getChildren().clear();
+        Label enterYearL = new Label("Enter year:");
+        
+        Label enterEircodeRoutingKeyL = new Label("Enter eircode routing key:");
 
         grid.add(enterYearL, 0, 1);
         grid.add(yearTf, 1, 1);
@@ -291,7 +274,7 @@ public class DepartmentGui extends Application {
 
         enter.setOnAction(e -> getOverdueDataWithKey());
 
-        newStage.setTitle("Overdue Data");
+        newStage.setTitle("Owner Data");
         newStage.setScene(scene);
         newStage.show();
     }
@@ -329,7 +312,7 @@ public class DepartmentGui extends Application {
 
         backToMenuBt.setOnAction(e -> deptOptions());
 
-        newStage.setTitle("Overdue Data");
+        newStage.setTitle("Overdue Tax Data");
         newStage.setScene(scene);
         newStage.show();
     }
@@ -342,6 +325,7 @@ public class DepartmentGui extends Application {
     public void setDetailsOverdueDataWithoutKey() {
         newStage.close();
         grid.getChildren().clear();
+        Label enterYearL = new Label("Enter year:");
 
         grid.add(enterYearL, 0, 0);
         grid.add(yearTf, 1, 0);
@@ -371,7 +355,7 @@ public class DepartmentGui extends Application {
 
                 backToMenuBt.setOnAction(e -> deptOptions());
 
-                newStage.setTitle("Overdue Data");
+                newStage.setTitle("Overdue Tax Data");
                 newStage.setScene(scene);
                 newStage.show();
 
@@ -382,7 +366,7 @@ public class DepartmentGui extends Application {
         newStage.setScene(scene);
         newStage.show();
     }
-    
+
     /**
      * A method which allows the user to enter the routing key to find
      * statistics for that area
@@ -442,6 +426,9 @@ public class DepartmentGui extends Application {
     public void changeFixedCost() {
         newStage.close();
         grid.getChildren().clear();
+        
+        Label changeFixedCostL = new Label("Change fixed cost");
+        Label newFixedCostL = new Label("Enter the new fixed cost");
 
         grid.add(changeFixedCostL, 0, 0);
         grid.add(newFixedCostL, 0, 1);
@@ -465,6 +452,11 @@ public class DepartmentGui extends Application {
         grid.getChildren().clear();
 
         Property.setFixedCost(Double.parseDouble(newFixedCostTf.getText()));
+        
+        Label changeBracketValueL = new Label("Change bracket values");
+        Label newFirstBracketValueL = new Label("Enter the first value");
+        Label newSecondBracketValueL = new Label("Enter the second value");
+        Label newThirdBracketValueL = new Label("Enter the third value");
 
         grid.add(changeBracketValueL, 0, 0);
         grid.add(newFirstBracketValueL, 0, 1);
@@ -489,6 +481,12 @@ public class DepartmentGui extends Application {
     public void changeBracketRates() {
         newStage.close();
         grid.getChildren().clear();
+        
+        Label changeBracketRateL = new Label("Change bracket rates");
+        Label newFirstBracketRateL = new Label("Enter the first value");
+        Label newSecondBracketRateL = new Label("Enter the second value");
+        Label newThirdBracketRateL = new Label("Enter the third value");
+        Label newFourthBracketRateL = new Label("Enter the fourth value");
 
         grid.add(changeBracketRateL, 0, 0);
         grid.add(newFirstBracketRateL, 0, 1);
@@ -528,6 +526,13 @@ public class DepartmentGui extends Application {
         double fourth = Double.parseDouble(newFourthBracketRateTf.getText());
         double[] newRates = {first, second, third, fourth};
         Property.setValueBrackets(newRates);
+        
+        Label changeLocationRateL = new Label("Change location rate");
+        Label newFirstLocationRateL = new Label("Enter the first value");
+        Label newSecondLocationRateL = new Label("Enter the second value");
+        Label newThirdLocationRateL = new Label("Enter the third value");
+        Label newFourthLocationRateL = new Label("Enter the fourth value");
+        Label newFifthLocationRateL = new Label("Enter the fifth value");
 
         grid.add(changeLocationRateL, 0, 0);
         grid.add(newFirstLocationRateL, 0, 1);
@@ -565,6 +570,9 @@ public class DepartmentGui extends Application {
         double fifth = Double.parseDouble(newFifthLocationRateTf.getText());
         double[] newRates = {first, second, third, fourth, fifth};
         Property.setLocationCatRates(newRates);
+        
+        Label changePprL = new Label("Change charge for not \nbeing principal residence");
+        Label newPprL = new Label("Enter the new value");
 
         grid.add(changePprL, 0, 0);
         grid.add(newPprL, 0, 1);
@@ -588,6 +596,9 @@ public class DepartmentGui extends Application {
         grid.getChildren().clear();
         
         Property.setPrincipalPrivateRate(Double.parseDouble(newPprTf.getText()));
+        
+        Label changePenaltyL = new Label("Change penalty");
+        Label newPenaltyL = new Label("Enter the new value");
 
         grid.add(changePenaltyL, 0, 0);
         grid.add(newPenaltyL, 0, 1);
