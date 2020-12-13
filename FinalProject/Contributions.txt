@@ -1,11 +1,21 @@
 Design:
+Chetachi figured out how to work on csv files and designed the PropertyManagement class to do the bulk of the work with csv files. She later supplemented other classes such as
+Property and PropertyOwner and filled in any gaps in the design, mostly surrounding working with csv files.
 
+Sam came up with the basic design for the Property, PropertyOwner, PaymentRecord and DepartmentManagementMenu classes. His main contribution to design was coming up with how
+these classes interact and keeping each year's tax record as an instance of a class. 
+
+Aoife was in charge of the GUI and worked mainly on the DepartmentGui and OwnerGui classes. She found she also needed ExitHandlerClass and GuiRun as the project progressed.
+
+Owen worked on the command line segment of the project and designed CommandLineRun to implement the functionality of each other class into the command line.
 
 
 Documentation:
 The UML Diagram was made by Sam and Chetachi. 
+
 Sam made the CRC cards for Property, PaymentRecord, PropertyOwner, DepartmentManagementMenu, CommandLineRun, PropertyManagement and
 ExitHandlerClass. Aoife made the CRC card for GuiRun, DepartmentGui and OwnerGui.
+
 Each team member wrote the javadoc for their own methods as listed in implementation.
 
 
@@ -40,5 +50,4 @@ In CommandLineRun: All methods
 
 
 Testing:
-
 
