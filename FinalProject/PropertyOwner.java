@@ -34,14 +34,16 @@ public class PropertyOwner {
         prop.payTax();
     }
     
-    public void viewProperties(){
-        for(int i = 0; i<properties.size(); i++){
+    public void viewProperties()
+    {
+        for (int i = 0; i < getProperties().size(); i++)
+        {
             System.out.println(properties.get(i).toString());
         }
     }
     
     public void queryYear(int year){
-        for(int i = 0; i<properties.size(); i++){
+        for(int i = 0; i<getProperties().size(); i++){
             System.out.println(properties.get(i).getAddress());
             System.out.println(properties.get(i).getRecord(year));
         }
@@ -72,8 +74,11 @@ public class PropertyOwner {
        public void initializing()
     {
         try
+
         {
-            File f = new File(this.name.toUpperCase() + ".csv");
+            File pr = new File("Owners");
+            pr.mkdir();
+            File f = new File(pr, this.name.toUpperCase() + ".csv");
             if (!f.exists())
             {
                 FileWriter csvWriter2 = new FileWriter(f, true);
@@ -99,11 +104,11 @@ public class PropertyOwner {
         return name;
     }
 
-    public void setName(String name)
+   public void setName(String name)
     {
         try
         {
-            File f = new File(this.name.toUpperCase() + ".csv");
+            File f = new File("Owners\\" + this.name.toUpperCase() + ".csv");
             File g = new File(name.toUpperCase() + ".csv");
             boolean a = f.exists();
             boolean b = g.exists();
@@ -116,7 +121,7 @@ public class PropertyOwner {
                     csvWriter2.append("Owner,Address,Eircode,Market Value,Location,Private Residence\n");
                 }
                 this.name = name;
-                csvWriter2.append(toString() + "\n");
+                csvWriter2.append(toString());
                 csvWriter2.flush();
                 csvWriter2.close();
 
@@ -157,7 +162,7 @@ public class PropertyOwner {
         ArrayList<Property> records = new ArrayList<>();
         try
         {
-            BufferedReader file = new BufferedReader(new FileReader(name.toUpperCase() + ".csv"));
+            BufferedReader file = new BufferedReader(new FileReader("Owners//" + name.toUpperCase() + ".csv"));
             String line;
             int i = 0;
 
@@ -230,7 +235,7 @@ public class PropertyOwner {
     {
         String[] files =
         {
-            "Properties.csv", this.name.toUpperCase() + " Payment Records.csv"
+            "Properties.csv", "Owners//" + this.name.toUpperCase() + " Payment Records.csv"
         };
         for (String filename : files)
         {
@@ -305,8 +310,6 @@ public class PropertyOwner {
 
     private void removePropertyFrom(Property p, String filename)
     {
-        //  String filename = "Properties.csv";
-
         try
         {
             BufferedReader file = new BufferedReader(new FileReader(filename));
@@ -332,12 +335,6 @@ public class PropertyOwner {
         {
             System.err.println("Problem reading file.");
         }
-
-        /*
-        File a = new File(this.address.toUpperCase() + " Payment Records.csv");
-        a.delete();
-        paymentRecords.clear();
-         */
     }
 
 }
